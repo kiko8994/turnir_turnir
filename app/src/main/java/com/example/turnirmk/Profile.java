@@ -1,8 +1,10 @@
 package com.example.turnirmk;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,13 +13,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
-    EditText editTextIme, editTextPrezime, editTextKontakt, editTextEmail2;
+    EditText editTextIme, editTextPrezime, editTextKontakt, editTextUsername, editTextEkipa;
     Button buttonSpremi;
 
     DatabaseReference databaseProfile;
@@ -28,9 +33,9 @@ public class Profile extends AppCompatActivity{
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String display_email = currentUser.getEmail();
-            editTextEmail2.setText(display_email);
-        } else {
-            editTextEmail2.setText("BLABLABLABLABLA");
+            String[] display_username = display_email.split("@");
+            editTextUsername.setText(display_username[0]);
+            editTextUsername.setEnabled(false);
         }
     }
 
@@ -44,7 +49,8 @@ public class Profile extends AppCompatActivity{
         editTextIme = (EditText) findViewById(R.id.editTextIme);
         editTextPrezime = (EditText) findViewById(R.id.editTextPrezime);
         editTextKontakt = (EditText) findViewById(R.id.editTextBroj);
-        editTextEmail2 = (EditText) findViewById(R.id.editTextEmail2);
+        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
+        editTextEkipa = (EditText) findViewById(R.id.editTextEkipa);
 
         buttonSpremi = (Button) findViewById(R.id.buttonSpremi);
 
@@ -60,7 +66,8 @@ public class Profile extends AppCompatActivity{
         String ime = editTextIme.getText().toString().trim();
         String prezime = editTextPrezime.getText().toString().trim();
         String kontakt = editTextKontakt.getText().toString().trim();
-        String email2 = editTextEmail2.getText().toString().trim();
+        String username = editTextUsername.getText().toString().trim();
+        String ekipa = editTextEkipa.getText().toString().trim();
 
         if (ime.isEmpty()) {
             editTextIme.setError("Ime mora biti upisano");
@@ -83,11 +90,17 @@ public class Profile extends AppCompatActivity{
             return;
         }
 
-        else {
-            String id = databaseProfile.push().getKey();
-            Profil profil = new Profil(ime, prezime, kontakt, email2, id);
+        else if (ekipa.isEmpty()) {
+            editTextEkipa.setError("Ekipa mora biti upisana");
+            editTextEkipa.requestFocus();
+            return;
+        }
 
-            databaseProfile.child(id).setValue(profil);
+        else {
+            Profil profil = new Profil(ime, prezime, kontakt, username, ekipa);
+
+            databaseProfile.child(username).setValue(profil);
+            databaseProfile.push();
             Intent intent = new Intent(getBaseContext(), MenuActivity.class);
             startActivity(intent);
 

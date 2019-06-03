@@ -1,18 +1,18 @@
 package com.example.turnirmk;
 
 public class Profil {
-    String ime, prezime, kontakt, email, id;
+    String ime, prezime, kontakt, username, ekipa;
 
     public Profil() {
 
     }
 
-    public Profil(String ime, String prezime, String kontakt, String email, String id) {
+    public Profil(String ime, String prezime, String kontakt, String username, String ekipa) {
         this.ime = ime;
         this.prezime = prezime;
         this.kontakt = kontakt;
-        this.email = email;
-        this.id = id;
+        this.username = username;
+        this.ekipa = ekipa;
     }
 
     public String getIme() {
@@ -27,12 +27,10 @@ public class Profil {
         return kontakt;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getEkipa() { return ekipa; }
 
 }
