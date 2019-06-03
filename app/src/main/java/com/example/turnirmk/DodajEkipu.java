@@ -31,9 +31,12 @@ public class DodajEkipu extends AppCompatActivity {
 
     Button Prijavi;
     DatabaseReference databaseEkipe;
+    DatabaseReference databaseIgrac;
+    DatabaseReference databaseProfil;
 
     ListView listViewEkipe;
     List<Ekipe> ekipe;
+    List<Profil> profili;
     private FloatingActionButton napraviGrupe;
     public static int brojekipa = 0;
 
@@ -50,6 +53,8 @@ public class DodajEkipu extends AppCompatActivity {
         listViewEkipe = (ListView) findViewById(R.id.listViewEkipe);
 
         ekipe = new ArrayList<>();
+        profili = new ArrayList<>();
+
 
         Intent intent = getIntent();
         final String id = intent.getStringExtra(DohvatiPodatke.ID_DOGADAJA);
@@ -59,6 +64,7 @@ public class DodajEkipu extends AppCompatActivity {
         imeDog.setText(name);
 
         databaseEkipe = FirebaseDatabase.getInstance().getReference("ekipe").child(id);
+        databaseProfil = FirebaseDatabase.getInstance().getReference("profil");
 
         Prijavi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,12 +110,16 @@ public class DodajEkipu extends AppCompatActivity {
     }
 
     private void saveEkipe(){
-        String name = imeEkipe.getText().toString().trim();
+        final String name = imeEkipe.getText().toString().trim();
 
         if(!TextUtils.isEmpty(name)){
             String id = databaseEkipe.push().getKey();
             Ekipe ekipe = new Ekipe(id, name);
+            Profil profil = new Profil("Matija","Jakovac","099999999","mjakovac","Goranin");
             databaseEkipe.child(id).setValue(ekipe);
+            databaseEkipe.child(id).child(name).setValue(profil.getUsername());
+
+
             Toast.makeText(this, "Uspjesno ste prijavili ekipu!",Toast.LENGTH_LONG).show();
 
         }

@@ -183,4 +183,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <Button
+        android:id="@+id/dodajUtakmice"
+        android:layout_width="73dp"
+        android:layout_height="38dp"
+        android:layout_x="7dp"
+        android:layout_y="208dp"
+        android:text="Dodaj"
+        tools:layout_editor_absoluteX="278dp"
+        tools:layout_editor_absoluteY="536dp" />
+
 </AbsoluteLayout>

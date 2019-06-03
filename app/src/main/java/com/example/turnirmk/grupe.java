@@ -3,9 +3,13 @@ package com.example.turnirmk;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,10 +41,15 @@ public class grupe extends AppCompatActivity {
     ListView grupaD;
     ListView utakmice;
 
+    Button dodajTekme;
+
     public static int sat, minuta;
 
 
     DatabaseReference grupeReference;
+    DatabaseReference utakmiceRef;
+    DatabaseReference grupeRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +66,7 @@ public class grupe extends AppCompatActivity {
         grupaC =(ListView) findViewById(R.id.grupaC);
         grupaD =(ListView) findViewById(R.id.grupaD);
         utakmice = (ListView) findViewById(R.id.listUtakmice);
+        dodajTekme = (Button) findViewById(R.id.dodajUtakmice);
 
         String tmp = getIntent().getStringExtra("GRUPE");
         String dat = getIntent().getStringExtra("DATE");
@@ -70,6 +80,15 @@ public class grupe extends AppCompatActivity {
 
         ekipe = new ArrayList<>();
         grupeReference = FirebaseDatabase.getInstance().getReference("ekipe").child(tmp);
+        utakmiceRef = FirebaseDatabase.getInstance().getReference("utakmice").child(tmp);
+        grupeRef = FirebaseDatabase.getInstance().getReference("grupe").child(tmp);
+
+        dodajTekme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                save();
+            }
+        });
 
     }
     @Override
@@ -764,15 +783,30 @@ public class grupe extends AppCompatActivity {
                     ArrayAdapter arrayAdapter = new ArrayAdapter(grupe.this, android.R.layout.simple_list_item_1, tekme);
                     utakmice.setAdapter(arrayAdapter);
                 }
-
-
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+    }
+    private void save(){
+        for(int i=0; i<tekme.size();i++){
+            String id = utakmiceRef.push().getKey();
+            Utakmice utakmice = new Utakmice(tekme.get(i),"","");
+            utakmiceRef.child(id).setValue(utakmice);
+        }
+
+        Skupine skupine = new Skupine(A.get(0).getImeEkipe(),A.get(1).getImeEkipe(),A.get(2).getImeEkipe(),A.get(3).getImeEkipe());
+        grupeRef.child("grupaA").setValue(skupine);
+        Skupine skupine2 = new Skupine(B.get(0).getImeEkipe(),B.get(1).getImeEkipe(),B.get(2).getImeEkipe(),B.get(3).getImeEkipe());
+        grupeRef.child("grupaB").setValue(skupine2);
+        if(ekipe.size()==16){
+            Skupine skupine3 = new Skupine(C.get(0).getImeEkipe(),C.get(1).getImeEkipe(),C.get(2).getImeEkipe(),C.get(3).getImeEkipe());
+            grupeRef.child("grupaC").setValue(skupine3);
+            Skupine skupine4 = new Skupine(D.get(0).getImeEkipe(),D.get(1).getImeEkipe(),D.get(2).getImeEkipe(),D.get(3).getImeEkipe());
+            grupeRef.child("grupaD").setValue(skupine4);
+        }
     }
 
 }
