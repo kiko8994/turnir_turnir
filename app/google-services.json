@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "1059874948036",
+    "firebase_url": "https://turnirmk.firebaseio.com",
+    "project_id": "turnirmk",
+    "storage_bucket": "turnirmk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059874948036:android:cc178ce9c8b34065",
+        "android_client_info": {
+          "package_name": "com.example.turnirmk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059874948036-h3fhck8dgqocokt4vb607qrhm6iaf9hn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.turnirmk",
+            "certificate_hash": "03f58e7b2bff7fe9cf42d0ab6d6eaf3be6f8882a"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPzp5Lg-9u4zBDehKGszwwGTaE-7V3ILY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059874948036-ij1gloscvqgqemvp7mulkb42pn4bv6ej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
