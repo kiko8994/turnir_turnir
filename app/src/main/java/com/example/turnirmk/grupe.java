@@ -39,6 +39,7 @@ public class grupe extends AppCompatActivity {
 
     public static int sat, minuta;
 
+
     DatabaseReference grupeReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
