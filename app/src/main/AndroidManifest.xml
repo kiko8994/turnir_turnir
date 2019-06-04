@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".grupe"></activity>
+        <activity android:name=".ViewProfile"></activity>
+        <activity android:name=".grupe" />
         <activity android:name=".Profile" />
         <activity android:name=".AddTournament" />
         <activity android:name=".DodajEkipu" />
