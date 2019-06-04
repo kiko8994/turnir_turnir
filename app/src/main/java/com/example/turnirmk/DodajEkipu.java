@@ -30,13 +30,14 @@ public class DodajEkipu extends AppCompatActivity {
     EditText imeEkipe;
 
     Button Prijavi;
+    Button pogledaj;
     DatabaseReference databaseEkipe;
     DatabaseReference databaseIgrac;
     DatabaseReference databaseProfil;
 
     ListView listViewEkipe;
     List<Ekipe> ekipe;
-    List<Profil> profili;
+    List<String> profili;
     private FloatingActionButton napraviGrupe;
     public static int brojekipa = 0;
 
@@ -49,12 +50,11 @@ public class DodajEkipu extends AppCompatActivity {
         imeDog = (TextView) findViewById(R.id.imeDog);
         imeEkipe = (EditText) findViewById(R.id.imeEkipe);
         Prijavi = (Button) findViewById(R.id.Prijavi);
-
+        pogledaj = (Button) findViewById(R.id.pogledaj);
         listViewEkipe = (ListView) findViewById(R.id.listViewEkipe);
 
         ekipe = new ArrayList<>();
         profili = new ArrayList<>();
-
 
         Intent intent = getIntent();
         final String id = intent.getStringExtra(DohvatiPodatke.ID_DOGADAJA);
@@ -64,7 +64,7 @@ public class DodajEkipu extends AppCompatActivity {
         imeDog.setText(name);
 
         databaseEkipe = FirebaseDatabase.getInstance().getReference("ekipe").child(id);
-        databaseProfil = FirebaseDatabase.getInstance().getReference("profil");
+        databaseProfil = FirebaseDatabase.getInstance().getReference().child("profil");
 
         Prijavi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +81,15 @@ public class DodajEkipu extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+        pogledaj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DodajEkipu.this, tab_fragments.class);
+                intent.putExtra("ID", id);
+                startActivity(intent);
+            }
+        });
 
-
-        imeEkipe.setText(profili.get(0).getUsername());
     }
 
 
