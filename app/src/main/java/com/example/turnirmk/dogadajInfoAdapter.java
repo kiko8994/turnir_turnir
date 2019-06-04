@@ -27,12 +27,12 @@ public class dogadajInfoAdapter extends ArrayAdapter<Dogadaj> {
         View listView = inflater.inflate(R.layout.list_view, null , true);
 
         TextView imeDogadaja = (TextView) listView.findViewById(R.id.imeDogadaja);
-        TextView kontakt = (TextView) listView.findViewById(R.id.kontakt);
-        TextView datum = (TextView) listView.findViewById(R.id.lokacija);
+        TextView lokacija = (TextView) listView.findViewById(R.id.lokacija);
+        TextView datum = (TextView) listView.findViewById(R.id.datum);
 
         Dogadaj dogadaj = ListaDogadaja.get(position);
         imeDogadaja.setText(dogadaj.getImeDogadaja());
-        kontakt.setText(dogadaj.getKontakt());
+        lokacija.setText(dogadaj.getLokacija());
         datum.setText(dogadaj.getDatum());
 
         return listView;

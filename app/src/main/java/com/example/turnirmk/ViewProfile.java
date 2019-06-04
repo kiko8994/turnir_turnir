@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ViewProfile extends AppCompatActivity {
 
     TextView textViewIme, textViewPrezime, textViewKontakt, textViewUsername, textViewEkipa;
-    Button buttonEditProfile;
+    Button buttonEditProfile, buttonChangePassword;
     private FirebaseAuth mAuth;
 
     @Override
@@ -70,12 +70,21 @@ public class ViewProfile extends AppCompatActivity {
         textViewEkipa = (TextView) findViewById(R.id.textViewEkipa);
 
         buttonEditProfile = (Button) findViewById(R.id.buttonEditProfile);
+        buttonChangePassword = (Button) findViewById(R.id.buttonChangePassword);
 
         buttonEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewProfile.this, Profile.class);
                 startActivity(intent);
+            }
+        });
+
+        buttonChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(ViewProfile.this, ChangePassword.class);
+                startActivity(intent1);
             }
         });
     }
