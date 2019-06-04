@@ -31,9 +31,9 @@ public class Profile extends AppCompatActivity{
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        String display_email = currentUser.getEmail();
+        String[] display_username = display_email.split("@");
         if (currentUser != null) {
-            String display_email = currentUser.getEmail();
-            String[] display_username = display_email.split("@");
             editTextUsername.setText(display_username[0]);
             editTextUsername.setEnabled(false);
         }

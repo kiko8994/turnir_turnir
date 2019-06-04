@@ -65,7 +65,7 @@ public class MenuActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.nav_profile:
-                        Intent intent = new Intent(MenuActivity.this, Profile.class);
+                        Intent intent = new Intent(MenuActivity.this, ViewProfile.class);
                         startActivity(intent);
                         break;
 
