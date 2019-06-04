@@ -81,6 +81,9 @@ public class DodajEkipu extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+
+        imeEkipe.setText(profili.get(0).getUsername());
     }
 
 
@@ -108,6 +111,7 @@ public class DodajEkipu extends AppCompatActivity {
             }
         });
     }
+
 
     private void saveEkipe(){
         final String name = imeEkipe.getText().toString().trim();
