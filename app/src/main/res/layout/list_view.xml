@@ -11,15 +11,16 @@ android:orientation="vertical">
     android:text="Ime dogadaja"
     android:textSize="22sp" />
 
-<TextView
-    android:id="@+id/kontakt"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Kontakt" />
+    <TextView
+        android:id="@+id/lokacija"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lokacija" />
 
-<TextView
-    android:id="@+id/lokacija"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Lokacija" />
+    <TextView
+        android:id="@+id/datum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Datum" />
+
 </LinearLayout>

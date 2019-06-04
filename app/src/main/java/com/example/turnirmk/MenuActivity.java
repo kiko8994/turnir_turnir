@@ -82,6 +82,11 @@ public class MenuActivity extends AppCompatActivity {
                         startActivity(intent3);
                         break;
 
+                    case R.id.nav_mytour:
+                        Intent intent4 = new Intent(MenuActivity.this, MyTournament.class);
+                        startActivity(intent4);
+                        break;
+
                     case R.id.nav_Logout:
                         FirebaseAuth.getInstance().signOut();
                         Intent intent1 = new Intent(MenuActivity.this, MainActivity.class);

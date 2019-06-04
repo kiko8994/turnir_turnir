@@ -40,7 +40,6 @@ import javax.mail.internet.MimeMessage;
 public class AddTournament extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     EditText editTextName;
-    EditText editTextName2;
     EditText editTextName3;
     Button buttonAdd;
     Button datum_gumb;
@@ -55,6 +54,7 @@ public class AddTournament extends AppCompatActivity implements
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
     String reciep = currentUser.getEmail();
+    String[] username = reciep.split("@");
 
     ProgressBar progressBar3;
 
@@ -68,7 +68,6 @@ public class AddTournament extends AppCompatActivity implements
         databaseDogadaj = FirebaseDatabase.getInstance().getReference("dogadaj");
 
         editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextName2 = (EditText) findViewById(R.id.editTextName2);
         editTextName3 = (EditText) findViewById(R.id.editTextName3);
         buttonAdd = (Button) findViewById(R.id.buttonAdd);
         datum_gumb = (Button) findViewById(R.id.datum_gumb);
@@ -102,25 +101,12 @@ public class AddTournament extends AppCompatActivity implements
     }
     private void dodaj() {
         String name = editTextName.getText().toString().trim();
-        String name2 = editTextName2.getText().toString().trim();
         String name3 = editTextName3.getText().toString().trim();
         String name4 = datum.getText().toString().trim();
 
         if (name.isEmpty()) {
             editTextName.setError("Ime turnira mora biti upisano!");
             editTextName.requestFocus();
-            return;
-        }
-
-        else if (name2.isEmpty()) {
-            editTextName2.setError("Kontakt broj mora biti upisan!");
-            editTextName2.requestFocus();
-            return;
-        }
-
-        else if (name2.length() < 9) {
-            editTextName2.setError("Kontakt broj mora imati barem 9 znamenki!");
-            editTextName2.requestFocus();
             return;
         }
 
@@ -138,7 +124,7 @@ public class AddTournament extends AppCompatActivity implements
 
         else {
             String id = databaseDogadaj.push().getKey();
-            Dogadaj dogadaj = new Dogadaj( name, name2, name3, id, name4);
+            Dogadaj dogadaj = new Dogadaj( name, username[0], name3, id, name4);
             databaseDogadaj.child(id).setValue(dogadaj);
 
             Properties props = new Properties();
@@ -209,7 +195,6 @@ public class AddTournament extends AppCompatActivity implements
         @Override
         protected void onPostExecute(String result) {
             editTextName.setText("");
-            editTextName2.setText("");
             editTextName3.setText("");
             datum.setText("");
             progressBar3.setVisibility(View.GONE);
