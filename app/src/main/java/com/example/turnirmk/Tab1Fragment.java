@@ -33,7 +33,8 @@ public class Tab1Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.tab1_fragment,container,false);
-        String id = "-LgYrdm4vIgPpyiy2C6Y";
+        String id = "-Lgcen1MQOVOUwjA_KJu";
+        //String strtext = getArguments().getString("edttext");
         utakmiceDatabase = FirebaseDatabase.getInstance().getReference("utakmice").child(id);
         tekme = new ArrayList<>();
         listViewUtakmice = (ListView)view.findViewById(R.id.listTekme1);
