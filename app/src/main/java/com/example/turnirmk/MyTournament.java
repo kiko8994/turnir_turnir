@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,10 +18,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class MyTournament extends AppCompatActivity {
 
-    TextView textViewMyTournament;
+    ListView listViewMyTour;
     private FirebaseAuth mAuth;
     final List<String> mojiTurniri = new ArrayList<String>();
 
@@ -29,7 +31,7 @@ public class MyTournament extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_tournament);
 
-        textViewMyTournament = (TextView) findViewById(R.id.textViewMyTournament);
+        listViewMyTour = (ListView) findViewById(R.id.listViewMyTour);
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String email = currentUser.getEmail();
@@ -44,11 +46,8 @@ public class MyTournament extends AppCompatActivity {
                     for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                         String imeDogadaja = childSnapshot.child("imeDogadaja").getValue().toString();
                         mojiTurniri.add(imeDogadaja);
-                        for (int i=0; i < mojiTurniri.size(); i++) {
-                            textViewMyTournament.setText(textViewMyTournament.getText() + mojiTurniri.get(i) + " , ");
-                        }
-                        mojiTurniri.clear();
                     }
+                    Log.d("tag", mojiTurniri.toString());
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Niste otvorili ni jedan turnir!", Toast.LENGTH_SHORT).show();
@@ -60,5 +59,6 @@ public class MyTournament extends AppCompatActivity {
 
             }
         });
+        Log.d("tag2", mojiTurniri.toString());
     }
 }
