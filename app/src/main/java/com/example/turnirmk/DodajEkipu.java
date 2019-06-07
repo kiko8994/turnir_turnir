@@ -1,6 +1,8 @@
 package com.example.turnirmk;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -41,6 +43,7 @@ public class DodajEkipu extends AppCompatActivity {
     private FloatingActionButton napraviGrupe;
     public static int brojekipa = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,7 @@ public class DodajEkipu extends AppCompatActivity {
 
         ekipe = new ArrayList<>();
         profili = new ArrayList<>();
+
 
         Intent intent = getIntent();
         final String id = intent.getStringExtra(DohvatiPodatke.ID_DOGADAJA);
@@ -85,7 +89,11 @@ public class DodajEkipu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DodajEkipu.this, tab_fragments.class);
-                intent.putExtra("ID", id);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("edttext", "From Activity");
+//// set Fragmentclass Arguments
+//                Tab1Fragment fragobj = new Tab1Fragment();
+//                fragobj.setArguments(bundle);
                 startActivity(intent);
             }
         });

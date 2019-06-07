@@ -1,5 +1,6 @@
 package com.example.turnirmk;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,6 +25,7 @@ public class tab_fragments extends AppCompatActivity {
     private static final String TAG = "tab_activity";
     private SectionPageAdapter sectionPageAdapter;
     private ViewPager viewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

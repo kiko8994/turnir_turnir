@@ -12,12 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".tab_fragments"
             android:label="@string/title_activity_tab_fragments"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+=======
         <activity android:name=".MyTournament"></activity>
         <activity android:name=".ChangePassword" />
+>>>>>>> 0cc1e548f7147c8e13c101e07329d3b28e753827
         <activity android:name=".ViewProfile" />
         <activity android:name=".grupe" />
         <activity android:name=".Profile" />

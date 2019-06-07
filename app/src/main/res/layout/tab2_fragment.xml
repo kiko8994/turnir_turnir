@@ -6,19 +6,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ListView
+        android:id="@+id/listGrupaC"
+        android:layout_width="124dp"
+        android:layout_height="163dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textC" />
+
+    <ListView
+        android:id="@+id/listGrupaD"
+        android:layout_width="124dp"
+        android:layout_height="163dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toEndOf="@+id/listGrupaC"
+        app:layout_constraintTop_toBottomOf="@+id/textD" />
+
     <TextView
-        android:id="@+id/textViewTab2"
-        android:layout_width="146dp"
-        android:layout_height="107dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/textD"
+        android:layout_width="103dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/textC"
+        app:layout_constraintTop_toBottomOf="@+id/listGrupaB" />
+
+    <TextView
+        android:id="@+id/textC"
+        android:layout_width="103dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listGrupaA" />
+
+    <TextView
+        android:id="@+id/textgrupaB"
+        android:layout_width="103dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="GRUPA B"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/textgrupaA"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textgrupaA"
+        android:layout_width="103dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="GRUPA A"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/listGrupaA"
+        android:layout_width="124dp"
+        android:layout_height="163dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textgrupaA" />
+
+    <ListView
+        android:id="@+id/listGrupaB"
+        android:layout_width="124dp"
+        android:layout_height="163dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@+id/listGrupaA"
+        app:layout_constraintTop_toBottomOf="@+id/textgrupaB" />
 </android.support.constraint.ConstraintLayout>
