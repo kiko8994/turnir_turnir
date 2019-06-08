@@ -23,20 +23,30 @@ import java.util.List;
 
 public class Tab1Fragment extends Fragment {
     private static String TAG = "Tab1Fragment";
-    TextView textView;
+    private static final String ARG_PARAM1 = "param1";
+    private String mParam1;
+
+
+    public static Tab1Fragment newInstance(String param1) {
+        Tab1Fragment fragment = new Tab1Fragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     DatabaseReference utakmiceDatabase;
     List<String> tekme;
     ListView listViewUtakmice;
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.tab1_fragment,container,false);
-        String id = "-Lgcen1MQOVOUwjA_KJu";
-        //String strtext = getArguments().getString("edttext");
-        utakmiceDatabase = FirebaseDatabase.getInstance().getReference("utakmice").child(id);
         tekme = new ArrayList<>();
+
+        mParam1 = getArguments().getString(ARG_PARAM1);
+        utakmiceDatabase = FirebaseDatabase.getInstance().getReference("utakmice").child(mParam1);
         listViewUtakmice = (ListView)view.findViewById(R.id.listTekme1);
         utakmiceDatabase.addValueEventListener(new ValueEventListener() {
             @Override

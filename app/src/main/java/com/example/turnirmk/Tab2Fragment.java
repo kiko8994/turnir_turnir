@@ -34,12 +34,24 @@ public class Tab2Fragment extends Fragment {
     List<String> grpC;
     List<String> grpD;
     DatabaseReference grupeDatabase;
+    private static final String ARG_PARAM1 = "param1";
+    private String id;
+
+
+    public static Tab2Fragment newInstance(String param1) {
+        Tab2Fragment fragment = new Tab2Fragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.tab2_fragment,container,false);
+        id = getArguments().getString(ARG_PARAM1);
 
         c = (TextView) view.findViewById(R.id.textC);
         d = (TextView) view.findViewById(R.id.textD);
@@ -47,7 +59,7 @@ public class Tab2Fragment extends Fragment {
         grupaB = (ListView) view.findViewById(R.id.listGrupaB);
         grupaC = (ListView) view.findViewById(R.id.listGrupaC);
         grupaD = (ListView) view.findViewById(R.id.listGrupaD);
-        String id = "-Lgcen1MQOVOUwjA_KJu";
+
         grpA = new ArrayList<>();
         grpB = new ArrayList<>();
         grpC = new ArrayList<>();
