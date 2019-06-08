@@ -1,9 +1,13 @@
 package com.example.turnirmk;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +28,6 @@ public class MyTournament extends AppCompatActivity {
 
     ListView listViewMyTour;
     private FirebaseAuth mAuth;
-    final List<String> mojiTurniri = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,8 @@ public class MyTournament extends AppCompatActivity {
         setContentView(R.layout.activity_my_tournament);
 
         listViewMyTour = (ListView) findViewById(R.id.listViewMyTour);
+
+        final List<String> mojiTurniri = new ArrayList<String>();
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String email = currentUser.getEmail();
@@ -47,7 +52,18 @@ public class MyTournament extends AppCompatActivity {
                         String imeDogadaja = childSnapshot.child("imeDogadaja").getValue().toString();
                         mojiTurniri.add(imeDogadaja);
                     }
-                    Log.d("tag", mojiTurniri.toString());
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, mojiTurniri);
+                    listViewMyTour.setAdapter(arrayAdapter);
+
+                    listViewMyTour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String value = listViewMyTour.getItemAtPosition(position).toString();
+                            Intent intent = new Intent(MyTournament.this, TeamOnMyTournament.class);
+                            intent.putExtra("key", value);
+                            startActivity(intent);
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Niste otvorili ni jedan turnir!", Toast.LENGTH_SHORT).show();
@@ -59,6 +75,5 @@ public class MyTournament extends AppCompatActivity {
 
             }
         });
-        Log.d("tag2", mojiTurniri.toString());
     }
 }
