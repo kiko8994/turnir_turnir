@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MyTournament">
 
-    <TextView
-        android:id="@+id/textViewMyTournament"
-        android:layout_width="193dp"
-        android:layout_height="421dp"
+    <ListView
+        android:id="@+id/listViewMyTour"
+        android:layout_width="363dp"
+        android:layout_height="620dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="24sp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -125,13 +125,14 @@ public class DodajEkipu extends AppCompatActivity {
 
     private void saveEkipe(){
         final String name = imeEkipe.getText().toString().trim();
+        final String id = getIntent().getStringExtra(DohvatiPodatke.ID_DOGADAJA);
 
         if(!TextUtils.isEmpty(name)){
-            String id = databaseEkipe.push().getKey();
-            Ekipe ekipe = new Ekipe(id, name);
+            String id_ekipa = databaseEkipe.push().getKey();
+            Ekipe ekipe = new Ekipe(id_ekipa, name, id);
             Profil profil = new Profil("Matija","Jakovac","099999999","mjakovac","Goranin");
-            databaseEkipe.child(id).setValue(ekipe);
-            databaseEkipe.child(id).child(name).setValue(profil.getUsername());
+            databaseEkipe.child(id_ekipa).setValue(ekipe);
+            databaseEkipe.child(id_ekipa).child(name).setValue(profil.getUsername());
 
 
             Toast.makeText(this, "Uspjesno ste prijavili ekipu!",Toast.LENGTH_LONG).show();
