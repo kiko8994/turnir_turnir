@@ -89,11 +89,7 @@ public class DodajEkipu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DodajEkipu.this, tab_fragments.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("edttext", "From Activity");
-//// set Fragmentclass Arguments
-//                Tab1Fragment fragobj = new Tab1Fragment();
-//                fragobj.setArguments(bundle);
+                intent.putExtra("ID", "test");
                 startActivity(intent);
             }
         });

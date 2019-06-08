@@ -22,9 +22,10 @@ import android.widget.TextView;
 
 public class tab_fragments extends AppCompatActivity {
 
-    private static final String TAG = "tab_activity";
+    private static String tmp;
     private SectionPageAdapter sectionPageAdapter;
     private ViewPager viewPager;
+
 
 
     @Override
@@ -37,12 +38,13 @@ public class tab_fragments extends AppCompatActivity {
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tmp = getIntent().getStringExtra("ID");
 
     }
 
     private void setupViewPager(ViewPager viewPager){
         SectionPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Tab1Fragment(),"Utakmice");
+        adapter.addFragment(new Tab1Fragment(),tmp);
         adapter.addFragment(new Tab2Fragment(),"Grupe");
         adapter.addFragment(new Tab3Fragment(),"Statistika");
         viewPager.setAdapter(adapter);
