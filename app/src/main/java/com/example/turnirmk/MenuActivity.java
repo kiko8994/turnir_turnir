@@ -41,8 +41,9 @@ public class MenuActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         TextView textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
         if (currentUser != null) {
-            String display = currentUser.getEmail();
-            textViewWelcome.setText("Dobrodošao " + display + "!");
+            String email = currentUser.getEmail();
+            String[] display = email.split("@");
+            textViewWelcome.setText("Dobrodošao " + display[0] + "!");
         } else {
             textViewWelcome.setText("BLABLABLABLABLA");
         }
