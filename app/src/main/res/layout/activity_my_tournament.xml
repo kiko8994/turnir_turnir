@@ -9,7 +9,7 @@
     <ListView
         android:id="@+id/listViewMyTour"
         android:layout_width="363dp"
-        android:layout_height="620dp"
+        android:layout_height="575dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -19,5 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.242" />
+
 </android.support.constraint.ConstraintLayout>

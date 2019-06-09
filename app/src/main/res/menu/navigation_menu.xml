@@ -4,22 +4,27 @@
 
     <item android:id="@+id/nav_profile"
         android:title="Profile"
+        android:icon="@drawable/ic_account_circle_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_addtour"
         android:title="Add tournament"
+        android:icon="@drawable/ic_add_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_viewtour"
         android:title="View tournament"
+        android:icon="@drawable/ic_view_headline_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_mytour"
         android:title="My tournament"
+        android:icon="@drawable/ic_accessibility_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_Logout"
         android:title="Logout"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
         app:showAsAction="always"/>
 
 </menu>
