@@ -32,8 +32,12 @@ public class dogadajInfoAdapter extends ArrayAdapter<Dogadaj> {
 
         Dogadaj dogadaj = ListaDogadaja.get(position);
         imeDogadaja.setText(dogadaj.getImeDogadaja());
-        lokacija.setText(dogadaj.getLokacija());
-        datum.setText(dogadaj.getDatum());
+        lokacija.setText("LOKACIJA: "+dogadaj.getLokacija());
+        String[] dat = dogadaj.getDatum().split(" ");
+        if(Integer.parseInt(dat[4])<10){
+            dat[4]+="0";
+        }
+        datum.setText("DATUM: "+dat[2]+"."+dat[1]+"."+dat[0]+"."+" s početkom u "+dat[3]+":"+dat[4]);
 
         return listView;
     }

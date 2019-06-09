@@ -36,10 +36,13 @@ public class DodajEkipu extends AppCompatActivity {
     Button Prijavi;
     Button pogledaj;
     DatabaseReference databaseEkipe;
-
+    DatabaseReference databaseFlag = FirebaseDatabase.getInstance().getReference("profil");
+    DatabaseReference databaseStrijelac;
     ListView listViewEkipe;
     List<Ekipe> ekipe;
     List<String> profili;
+    List<String> momcadZaKojuIgra;
+    public static String test;
 
     private FloatingActionButton napraviGrupe;
     public static int brojekipa = 0;
@@ -59,6 +62,7 @@ public class DodajEkipu extends AppCompatActivity {
 
         ekipe = new ArrayList<>();
         profili = new ArrayList<>();
+        momcadZaKojuIgra = new ArrayList<>();
 
 
         Intent intent = getIntent();
@@ -69,6 +73,7 @@ public class DodajEkipu extends AppCompatActivity {
         imeDog.setText(name);
 
         databaseEkipe = FirebaseDatabase.getInstance().getReference("ekipe").child(id);
+        databaseStrijelac = FirebaseDatabase.getInstance().getReference("strijelci").child(id);
 
         Prijavi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,23 +98,6 @@ public class DodajEkipu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*DatabaseReference databaseProfil = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference dataProfil = databaseProfil.child("profil");
-        dataProfil.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data:dataSnapshot.getChildren()){
-                    String imeProfila = data.getValue().toString();
-                    profili.add(imeProfila);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        Toast.makeText(this, profili.get(0),Toast.LENGTH_LONG).show();*/
 
     }
 
@@ -138,6 +126,25 @@ public class DodajEkipu extends AppCompatActivity {
             }
         });
 
+
+        databaseFlag.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                profili.clear();
+                momcadZaKojuIgra.clear();
+                for (DataSnapshot data:dataSnapshot.getChildren()){
+                    Profil imeProfila = data.getValue(Profil.class);
+                    profili.add(imeProfila.getUsername());
+                    momcadZaKojuIgra.add(imeProfila.getEkipa());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 
@@ -147,14 +154,17 @@ public class DodajEkipu extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(name)){
             String id_ekipa = databaseEkipe.push().getKey();
+            for (int i=0;i<profili.size();i++) {
+                Strijelac strijelac = new Strijelac(profili.get(i),momcadZaKojuIgra.get(i),0);
+                String id_strijelca = databaseStrijelac.push().getKey();
+                databaseStrijelac.child(id_strijelca).setValue(strijelac);
+            }
             Ekipe ekipe = new Ekipe(id_ekipa, name, id);
-            Profil profil = new Profil("Matija","Jakovac","099999999","mjakovac","Goranin");
             databaseEkipe.child(id_ekipa).setValue(ekipe);
-            databaseEkipe.child(id_ekipa).child(name).setValue(profil.getUsername());
 
 
             Toast.makeText(this, "Uspjesno ste prijavili ekipu!",Toast.LENGTH_LONG).show();
-
+            imeEkipe.setText("");
         }
         else{
             Toast.makeText(this, "Morate upisati ime ekipe!",Toast.LENGTH_LONG).show();

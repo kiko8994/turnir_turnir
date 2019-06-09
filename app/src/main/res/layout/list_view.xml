@@ -9,18 +9,25 @@ android:orientation="vertical">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Ime dogadaja"
-    android:textSize="22sp" />
+    android:textSize="22sp"
+    android:fontFamily="helvetica"
+    android:textColor="#000"/>
 
     <TextView
         android:id="@+id/lokacija"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lokacija" />
+        android:text="Lokacija"
+        android:fontFamily="helvetica"
+        android:textColor="#202020"/>
 
     <TextView
         android:id="@+id/datum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Datum" />
+        android:text="Datum"
+        android:fontFamily="helvetica"
+        android:textColor="#202020"/>
+
 
 </LinearLayout>
