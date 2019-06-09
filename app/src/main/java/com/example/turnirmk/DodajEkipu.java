@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -34,12 +36,11 @@ public class DodajEkipu extends AppCompatActivity {
     Button Prijavi;
     Button pogledaj;
     DatabaseReference databaseEkipe;
-    DatabaseReference databaseIgrac;
-    DatabaseReference databaseProfil;
 
     ListView listViewEkipe;
     List<Ekipe> ekipe;
     List<String> profili;
+
     private FloatingActionButton napraviGrupe;
     public static int brojekipa = 0;
 
@@ -68,7 +69,6 @@ public class DodajEkipu extends AppCompatActivity {
         imeDog.setText(name);
 
         databaseEkipe = FirebaseDatabase.getInstance().getReference("ekipe").child(id);
-        databaseProfil = FirebaseDatabase.getInstance().getReference().child("profil");
 
         Prijavi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,15 +88,28 @@ public class DodajEkipu extends AppCompatActivity {
         pogledaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DodajEkipu.this, tab_fragments.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("edttext", "From Activity");
-//// set Fragmentclass Arguments
-//                Tab1Fragment fragobj = new Tab1Fragment();
-//                fragobj.setArguments(bundle);
+                Intent intent = new Intent(DodajEkipu.this, tabMain.class);
+                intent.putExtra("ID", id);
                 startActivity(intent);
             }
         });
+        /*DatabaseReference databaseProfil = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference dataProfil = databaseProfil.child("profil");
+        dataProfil.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data:dataSnapshot.getChildren()){
+                    String imeProfila = data.getValue().toString();
+                    profili.add(imeProfila);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Toast.makeText(this, profili.get(0),Toast.LENGTH_LONG).show();*/
 
     }
 
@@ -124,6 +137,7 @@ public class DodajEkipu extends AppCompatActivity {
 
             }
         });
+
     }
 
 
