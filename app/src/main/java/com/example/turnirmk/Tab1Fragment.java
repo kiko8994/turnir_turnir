@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -70,6 +73,44 @@ public class Tab1Fragment extends Fragment {
             }
         });
 
+        listViewUtakmice.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String utakmice = tekme.get(i);
+                showDialog(utakmice);
+
+                return false;
+            }
+        });
+
         return view;
+    }
+
+    private void showDialog(String utakmica){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.dialog, null);
+
+        final EditText rezEkipaPrva = (EditText)dialogView.findViewById(R.id.rezEkipa1);
+        final EditText rezEkipaDruga = (EditText)dialogView.findViewById(R.id.rezEkipa2);
+        final TextView prvaEkipa = (TextView)dialogView.findViewById(R.id.ekipa1);
+        final TextView drugaEkipa = (TextView)dialogView.findViewById(R.id.ekipa2);
+        String[] temp=utakmica.split(" ");
+        String[] ekipe=temp[2].split("-");
+
+        prvaEkipa.setText(ekipe[0]);
+        drugaEkipa.setText(ekipe[1]);
+
+
+        dialogBuilder.setView(dialogView);
+
+        dialogBuilder.setTitle("Utakmica :");
+
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
     }
 }

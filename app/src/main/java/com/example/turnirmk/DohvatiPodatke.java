@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,6 +34,7 @@ public class DohvatiPodatke extends AppCompatActivity {
     private ListView listView;
     DatabaseReference databaseReference;
     List<Dogadaj>ListaDogadaja;
+    dogadajInfoAdapter InfoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +44,13 @@ public class DohvatiPodatke extends AppCompatActivity {
         listView = findViewById(R.id.list_view);
         databaseReference = FirebaseDatabase.getInstance().getReference("dogadaj");
         ListaDogadaja = new ArrayList<>();
-
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Dogadaj dogadaj = ListaDogadaja.get(i);
 
-                showDialog(dogadaj.getImeDogadaja(),dogadaj.getDatum());
+                //showDialog(dogadaj.getImeDogadaja(),dogadaj.getDatum());
                 return false;
             }
         });
@@ -66,23 +68,6 @@ public class DohvatiPodatke extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-    }
-
-    private void showDialog(String imeDogadaja, String datum){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = getLayoutInflater();
-
-        final View dialogView = inflater.inflate(R.layout.dialog, null);
-
-        dialogBuilder.setView(dialogView);
-
-        dialogBuilder.setTitle("Prijava ekipe :"+imeDogadaja+ " "+datum);
-
-        final AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-
     }
 
 
@@ -96,8 +81,9 @@ public class DohvatiPodatke extends AppCompatActivity {
                     Dogadaj dogadaj = dogadajSnapshot.getValue(Dogadaj.class);
                     ListaDogadaja.add(dogadaj);
                 }
-                dogadajInfoAdapter InfoAdapter = new dogadajInfoAdapter(DohvatiPodatke.this, ListaDogadaja);
+                InfoAdapter = new dogadajInfoAdapter(DohvatiPodatke.this, ListaDogadaja);
                 listView.setAdapter(InfoAdapter);
+
             }
 
             @Override
