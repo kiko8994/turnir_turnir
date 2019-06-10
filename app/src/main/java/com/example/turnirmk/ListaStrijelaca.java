@@ -25,11 +25,11 @@ public class ListaStrijelaca extends ArrayAdapter<Strijelac> {
         View listViewStrijelaca = inflater.inflate(R.layout.list_view_strijelci, null , true);
 
         TextView textStrijelca = (TextView) listViewStrijelaca.findViewById(R.id.textImeStrijelca);
-        TextView brojGolova = (TextView) listViewStrijelaca.findViewById(R.id.textImeStrijelca);
+        TextView brojGolova = (TextView) listViewStrijelaca.findViewById(R.id.brojGolova);
 
         Strijelac strijelac = Lista_Strijelaca.get(position);
         textStrijelca.setText(strijelac.getImeStrijelca()+"("+strijelac.getMomcad()+")");
-        brojGolova.setText(strijelac.getBrojGolova());
+        brojGolova.setText(strijelac.getBrojGolova()+"");
 
         return listViewStrijelaca;
     }
