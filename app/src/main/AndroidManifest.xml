@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".TeamOnMyTournament"></activity>
         <activity
-            android:name=".tab_fragments"
-            android:label="@string/title_activity_tab_fragments"
+            android:name=".tabMain"
+            android:label="@string/title_activity_tab_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MyTournament" />
         <activity android:name=".ChangePassword" />

@@ -1,15 +1,16 @@
 package com.example.turnirmk;
 
 public class Strijelac {
-    String imeStrijelca,momcad;
+    String imeStrijelca,momcad, idStrijelca;
     int brojGolova;
 
     public Strijelac() {
     }
 
-    public Strijelac(String imeStrijelca, String momcad, int brojGolova) {
+    public Strijelac(String imeStrijelca, String momcad, String idStrijelca, int brojGolova) {
         this.imeStrijelca = imeStrijelca;
         this.momcad = momcad;
+        this.idStrijelca = idStrijelca;
         this.brojGolova = brojGolova;
     }
 
@@ -19,6 +20,10 @@ public class Strijelac {
 
     public String getMomcad() {
         return momcad;
+    }
+
+    public String getIdStrijelca() {
+        return idStrijelca;
     }
 
     public int getBrojGolova() {

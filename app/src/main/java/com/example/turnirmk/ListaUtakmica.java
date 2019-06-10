@@ -27,7 +27,7 @@ public class ListaUtakmica extends ArrayAdapter<Utakmice> {
         TextView textEkipe = (TextView) listViewEkipe.findViewById(R.id.imeEkipe);
 
         Utakmice tekme = Lista_Utakmica.get(position);
-        textEkipe.setText(tekme.getTekma());
+        textEkipe.setText(tekme.getTekma()+"  "+tekme.getRezultat());
 
         return listViewEkipe;
     }

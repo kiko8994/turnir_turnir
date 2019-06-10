@@ -40,8 +40,7 @@ public class DodajEkipu extends AppCompatActivity {
     DatabaseReference databaseStrijelac;
     ListView listViewEkipe;
     List<Ekipe> ekipe;
-    List<String> profili;
-    List<String> momcadZaKojuIgra;
+    List<Profil> profili;
     public static String test;
 
     private FloatingActionButton napraviGrupe;
@@ -62,7 +61,6 @@ public class DodajEkipu extends AppCompatActivity {
 
         ekipe = new ArrayList<>();
         profili = new ArrayList<>();
-        momcadZaKojuIgra = new ArrayList<>();
 
 
         Intent intent = getIntent();
@@ -131,11 +129,9 @@ public class DodajEkipu extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 profili.clear();
-                momcadZaKojuIgra.clear();
                 for (DataSnapshot data:dataSnapshot.getChildren()){
                     Profil imeProfila = data.getValue(Profil.class);
-                    profili.add(imeProfila.getUsername());
-                    momcadZaKojuIgra.add(imeProfila.getEkipa());
+                    profili.add(imeProfila);
                 }
             }
 
@@ -155,9 +151,12 @@ public class DodajEkipu extends AppCompatActivity {
         if(!TextUtils.isEmpty(name)){
             String id_ekipa = databaseEkipe.push().getKey();
             for (int i=0;i<profili.size();i++) {
-                Strijelac strijelac = new Strijelac(profili.get(i),momcadZaKojuIgra.get(i),0);
-                String id_strijelca = databaseStrijelac.push().getKey();
-                databaseStrijelac.child(id_strijelca).setValue(strijelac);
+                String tim = profili.get(i).getEkipa();
+                if(name.equals(tim)) {
+                    String id_strijelca = databaseStrijelac.push().getKey();
+                    Strijelac strijelac = new Strijelac(profili.get(i).getUsername(), profili.get(i).getEkipa(), id_strijelca,0);
+                    databaseStrijelac.child(id_strijelca).setValue(strijelac);
+                }
             }
             Ekipe ekipe = new Ekipe(id_ekipa, name, id);
             databaseEkipe.child(id_ekipa).setValue(ekipe);
