@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.buttonLogin:
+                editTextEMail.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                editTextLozinka.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 userLogin();
                 break;
         }
