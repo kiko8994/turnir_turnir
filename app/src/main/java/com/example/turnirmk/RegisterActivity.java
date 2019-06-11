@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -98,6 +99,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonPotvrdi:
+                editTextEMail.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                editTextLozinka.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 registerUser();
                 break;
         }

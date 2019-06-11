@@ -11,14 +11,18 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +49,11 @@ public class DodajEkipu extends AppCompatActivity {
 
     private FloatingActionButton napraviGrupe;
     public static int brojekipa = 0;
+
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+    String email = currentUser.getEmail();
+    String[] username = email.split("@");
 
 
     @Override
@@ -76,6 +85,7 @@ public class DodajEkipu extends AppCompatActivity {
         Prijavi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imeEkipe.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 saveEkipe();
             }
         });
@@ -150,6 +160,8 @@ public class DodajEkipu extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(name)){
             String id_ekipa = databaseEkipe.push().getKey();
+            Ekipe ekipe = new Ekipe(id_ekipa, name, username[0], id);
+            databaseEkipe.child(id_ekipa).setValue(ekipe);
             for (int i=0;i<profili.size();i++) {
                 String tim = profili.get(i).getEkipa();
                 if(name.equals(tim)) {
@@ -158,9 +170,6 @@ public class DodajEkipu extends AppCompatActivity {
                     databaseStrijelac.child(id_strijelca).setValue(strijelac);
                 }
             }
-            Ekipe ekipe = new Ekipe(id_ekipa, name, id);
-            databaseEkipe.child(id_ekipa).setValue(ekipe);
-
 
             Toast.makeText(this, "Uspjesno ste prijavili ekipu!",Toast.LENGTH_LONG).show();
             imeEkipe.setText("");

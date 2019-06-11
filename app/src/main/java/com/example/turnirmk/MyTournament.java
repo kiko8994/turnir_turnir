@@ -1,8 +1,12 @@
 package com.example.turnirmk;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -40,13 +45,15 @@ public class MyTournament extends AppCompatActivity {
         listViewMyTour = (ListView) findViewById(R.id.listViewMyTour);
 
         final List<String> mojiTurniri = new ArrayList<String>();
+        final ArrayList<String> keyList = new ArrayList<>();
+        final ArrayList<String> keyList1 = new ArrayList<>();
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String email = currentUser.getEmail();
         String[] username = email.split("@");
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference dogadaj = rootRef.child("dogadaj");
+        final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference dogadaj = rootRef.child("dogadaj");
         dogadaj.orderByChild("kontakt").equalTo(username[0]).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -54,8 +61,9 @@ public class MyTournament extends AppCompatActivity {
                     for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                         String imeDogadaja = childSnapshot.child("imeDogadaja").getValue().toString();
                         mojiTurniri.add(imeDogadaja);
+                        keyList.add(childSnapshot.getKey());
                     }
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, mojiTurniri);
+                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, mojiTurniri);
                     listViewMyTour.setAdapter(arrayAdapter);
 
                     listViewMyTour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,6 +73,55 @@ public class MyTournament extends AppCompatActivity {
                             Intent intent = new Intent(MyTournament.this, TeamOnMyTournament.class);
                             intent.putExtra("key", value);
                             startActivity(intent);
+                        }
+                    });
+
+                    listViewMyTour.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                            final String odabraniTurnir = listViewMyTour.getItemAtPosition(position).toString();
+
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(MyTournament.this);
+                            builder.setTitle("Izbriši turnir");
+                            builder.setMessage("Jeste li sigurni da želite izbrisati odabrani turnir?\n\n" +  odabraniTurnir);
+                            builder.setPositiveButton("DA", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String idOfDeleteTour = keyList.get(position);
+
+                                    final DatabaseReference ekipe = rootRef.child("ekipe").child(idOfDeleteTour);
+                                    ekipe.orderByChild("idTurnira").equalTo(idOfDeleteTour).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                for (DataSnapshot cs: dataSnapshot.getChildren()) {
+                                                    keyList1.add(cs.getKey());
+                                                }
+                                            }
+                                            arrayAdapter.remove(mojiTurniri.get(position));
+                                            dogadaj.child(keyList.get(position)).removeValue();
+                                            Log.d("ključ", keyList1.toString());
+                                            Log.d("duljina", "value" + keyList1.size());
+                                            for (int i = 0 ; i < keyList1.size(); i++) {
+                                                ekipe.child(keyList1.get(i)).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                            });
+                            builder.setNegativeButton("NE", null);
+                            builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+                            AlertDialog alert = builder.create();
+                            alert.show();
+
+                            return true;
                         }
                     });
                 }
