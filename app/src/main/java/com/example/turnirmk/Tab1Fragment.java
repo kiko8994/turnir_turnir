@@ -39,7 +39,9 @@ public class Tab1Fragment extends Fragment {
     List<Strijelac> strijelciSvi;
     List<String> sveGrupe;
     List<String> GrupaB;
-    public static String ekipaKojojDajemoBodove;
+    public static String ekipaKojojDajemoBodove="";
+    public static String ekipaKojojDajemoBodove1="";
+    public static String ekipaKojojDajemoBodove2="";
     DatabaseReference databasePronadiStrijelce = FirebaseDatabase.getInstance().getReference("strijelci");
     DatabaseReference databasePronadiGrupe = FirebaseDatabase.getInstance().getReference("grupe");
     public static int golovi;
@@ -239,6 +241,10 @@ public class Tab1Fragment extends Fragment {
         else if(Integer.parseInt(rezaPolje[0])<Integer.parseInt(rezaPolje[1])){
             ekipaKojojDajemoBodove = ekipe[1];
         }
+        else {
+            ekipaKojojDajemoBodove1 = ekipe[0];
+            ekipaKojojDajemoBodove2 = ekipe[1];
+        }
         //GRUPE
         for (int j=0;j<sveGrupe.size();j++) {
             String[] momcadi=sveGrupe.get(j).split("-");
@@ -247,6 +253,54 @@ public class Tab1Fragment extends Fragment {
             String[] momcad2 = momcadi[1].split(" ");
             String[] momcad3 = momcadi[2].split(" ");
             String[] momcad4 = momcadi[3].split(" ");
+            if(ekipaKojojDajemoBodove1.equals(momcad1[0]) && ekipaKojojDajemoBodove2.equals(momcad2[0])){
+                int a=Integer.parseInt(momcad1[1])+1;
+                int b=Integer.parseInt(momcad2[1])+1;
+                String mijenjamo_bodove1 = momcad1[0]+" "+a;
+                String mijenjamo_bodove2 = momcad2[0]+" "+b;
+                Skupine skupine = new Skupine(mijenjamo_bodove1,mijenjamo_bodove2,momcadi[2],momcadi[3],id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove1.equals(momcad1[0]) && ekipaKojojDajemoBodove2.equals(momcad3[0])){
+                int a=Integer.parseInt(momcad1[1])+1;
+                int b=Integer.parseInt(momcad3[1])+1;
+                String mijenjamo_bodove1 = momcad1[0]+" "+a;
+                String mijenjamo_bodove2 = momcad3[0]+" "+b;
+                Skupine skupine = new Skupine(mijenjamo_bodove1,momcadi[1],mijenjamo_bodove2,momcadi[3],id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove1.equals(momcad1[0]) && ekipaKojojDajemoBodove2.equals(momcad4[0])){
+                int a=Integer.parseInt(momcad1[1])+1;
+                int b=Integer.parseInt(momcad4[1])+1;
+                String mijenjamo_bodove1 = momcad1[0]+" "+a;
+                String mijenjamo_bodove2 = momcad4[0]+" "+b;
+                Skupine skupine = new Skupine(mijenjamo_bodove1,momcadi[1],momcadi[2],mijenjamo_bodove2,id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove1.equals(momcad2[0]) && ekipaKojojDajemoBodove2.equals(momcad3[0])){
+                int a=Integer.parseInt(momcad2[1])+1;
+                int b=Integer.parseInt(momcad3[1])+1;
+                String mijenjamo_bodove1 = momcad2[0]+" "+a;
+                String mijenjamo_bodove2 = momcad3[0]+" "+b;
+                Skupine skupine = new Skupine(momcadi[0],mijenjamo_bodove1,mijenjamo_bodove2,momcadi[3],id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove1.equals(momcad2[0]) && ekipaKojojDajemoBodove2.equals(momcad4[0])){
+                int a=Integer.parseInt(momcad2[1])+1;
+                int b=Integer.parseInt(momcad4[1])+1;
+                String mijenjamo_bodove1 = momcad2[0]+" "+a;
+                String mijenjamo_bodove2 = momcad4[0]+" "+b;
+                Skupine skupine = new Skupine(momcadi[0],mijenjamo_bodove1,momcadi[2],mijenjamo_bodove2,id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove1.equals(momcad3[0]) && ekipaKojojDajemoBodove2.equals(momcad4[0])){
+                int a=Integer.parseInt(momcad3[1])+1;
+                int b=Integer.parseInt(momcad4[1])+1;
+                String mijenjamo_bodove1 = momcad3[0]+" "+a;
+                String mijenjamo_bodove2 = momcad4[0]+" "+b;
+                Skupine skupine = new Skupine(momcadi[0],momcadi[1],mijenjamo_bodove1,mijenjamo_bodove2,id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
             if(ekipaKojojDajemoBodove.equals(momcad1[0])){
                 int a=Integer.parseInt(momcad1[1])+3;
                 String mijenjamo_bodove = momcad1[0]+" "+a;
@@ -271,7 +325,11 @@ public class Tab1Fragment extends Fragment {
                 Skupine skupine = new Skupine(momcadi[0],momcadi[1],momcadi[2],mijenjamo_bodove,id_grupe);
                 databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
             }
+
         }
+        ekipaKojojDajemoBodove="";
+        ekipaKojojDajemoBodove1="";
+        ekipaKojojDajemoBodove2="";
         //STRIJELCI
 
         for(int i=0;i<strijelciSvi.size();i++){
