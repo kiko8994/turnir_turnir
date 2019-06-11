@@ -4,6 +4,7 @@ public class Ekipe {
     private String idEkipe;
     private String imeEkipe;
     private String idTurnira;
+    //private String voditelj;
     public Ekipe(){
 
     }
@@ -12,6 +13,7 @@ public class Ekipe {
         this.idEkipe = idEkipe;
         this.imeEkipe = imeEkipe;
         this.idTurnira = idTurnira;
+        //this.voditelj = voditelj;
     }
 
     public String getIdEkipe() {
@@ -23,4 +25,6 @@ public class Ekipe {
     }
 
     public String getIdTurnira() { return idTurnira; }
+
+    //public String voditelj() { return voditelj; }
 }
