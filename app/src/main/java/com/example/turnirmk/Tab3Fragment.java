@@ -25,7 +25,7 @@ public class Tab3Fragment extends Fragment {
     private String mParam1;
     private static final String ARG_PARAM1 = "param1";
     TextView textView;
-    List<String> svi_strijelci;
+    List<Strijelac> svi_strijelci;
 
     public static Tab3Fragment newInstance(String param1) {
         Tab3Fragment fragment = new Tab3Fragment();
@@ -51,14 +51,10 @@ public class Tab3Fragment extends Fragment {
                 svi_strijelci.clear();
                 for(DataSnapshot snap : dataSnapshot.getChildren()){
                     Strijelac strijelac = snap.getValue(Strijelac.class);
-                    svi_strijelci.add(strijelac.getImeStrijelca()+" "+strijelac.getBrojGolova());
+                    svi_strijelci.add(strijelac);
                 }
 
-                ArrayAdapter listaAdapter = new ArrayAdapter(
-                        getContext(),
-                        android.R.layout.simple_list_item_1,
-                        svi_strijelci
-                );
+                ListaStrijelaca listaAdapter = new ListaStrijelaca(getActivity(),svi_strijelci);
                 list_view_strijelci.setAdapter(listaAdapter);
             }
 
