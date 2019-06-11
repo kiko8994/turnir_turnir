@@ -306,14 +306,18 @@ public class grupe extends AppCompatActivity {
             utakmiceRef.child(id).setValue(utakmice);
         }
 
-        Skupine skupine = new Skupine(A.get(0).getImeEkipe(),A.get(1).getImeEkipe(),A.get(2).getImeEkipe(),A.get(3).getImeEkipe());
+        Skupine skupine = new Skupine(A.get(0).getImeEkipe()+" 0",A.get(1).getImeEkipe()+" 0",
+                A.get(2).getImeEkipe()+" 0",A.get(3).getImeEkipe()+" 0", "grupaA");
         grupeRef.child("grupaA").setValue(skupine);
-        Skupine skupine2 = new Skupine(B.get(0).getImeEkipe(),B.get(1).getImeEkipe(),B.get(2).getImeEkipe(),B.get(3).getImeEkipe());
+        Skupine skupine2 = new Skupine(B.get(0).getImeEkipe()+" 0",B.get(1).getImeEkipe()+" 0",
+                B.get(2).getImeEkipe()+" 0",B.get(3).getImeEkipe()+" 0","grupaB");
         grupeRef.child("grupaB").setValue(skupine2);
         if(ekipe.size()==16){
-            Skupine skupine3 = new Skupine(C.get(0).getImeEkipe(),C.get(1).getImeEkipe(),C.get(2).getImeEkipe(),C.get(3).getImeEkipe());
+            Skupine skupine3 = new Skupine(C.get(0).getImeEkipe()+" 0",C.get(1).getImeEkipe()+" 0",
+                    C.get(2).getImeEkipe()+" 0",C.get(3).getImeEkipe()+" 0","grupaC");
             grupeRef.child("grupaC").setValue(skupine3);
-            Skupine skupine4 = new Skupine(D.get(0).getImeEkipe(),D.get(1).getImeEkipe(),D.get(2).getImeEkipe(),D.get(3).getImeEkipe());
+            Skupine skupine4 = new Skupine(D.get(0).getImeEkipe()+" 0",D.get(1).getImeEkipe()+" 0",
+                    D.get(2).getImeEkipe()+" 0",D.get(3).getImeEkipe()+" 0","grupaD");
             grupeRef.child("grupaD").setValue(skupine4);
         }
     }

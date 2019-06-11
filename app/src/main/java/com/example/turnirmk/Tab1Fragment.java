@@ -31,15 +31,17 @@ import java.util.List;
 public class Tab1Fragment extends Fragment {
     private static String TAG = "Tab1Fragment";
     private static final String ARG_PARAM1 = "param1";
-    public static ArrayAdapter<String> listaAdapterStrijelac2;
-    public static ArrayAdapter<String> listaAdapterStrijelac1;
+    public static ListaStrijelacaMultiple listaAdapterStrijelac2;
+    public static ListaStrijelacaMultiple listaAdapterStrijelac1;
     private String mParam1;
-    List<String> strijelciPrveEkipe;
-    List<String> strijelciDrugeEkipe;
-    List<String> listStrijelciPrveEkipe;
-    List<String> listStrijelciDrugeEkipe;
-    List<String> strijelciSvi;
+    List<Strijelac> strijelciPrveEkipe;
+    List<Strijelac> strijelciDrugeEkipe;
+    List<Strijelac> strijelciSvi;
+    List<String> sveGrupe;
+    List<String> GrupaB;
+    public static String ekipaKojojDajemoBodove;
     DatabaseReference databasePronadiStrijelce = FirebaseDatabase.getInstance().getReference("strijelci");
+    DatabaseReference databasePronadiGrupe = FirebaseDatabase.getInstance().getReference("grupe");
     public static int golovi;
 
     public static Tab1Fragment newInstance(String param1) {
@@ -112,9 +114,9 @@ public class Tab1Fragment extends Fragment {
         final ListView listaDrugeEkipe = (ListView) dialogView.findViewById(R.id.listEkipa2);
         strijelciPrveEkipe = new ArrayList<>();
         strijelciDrugeEkipe = new ArrayList<>();
-        listStrijelciPrveEkipe = new ArrayList<>();
-        listStrijelciDrugeEkipe = new ArrayList<>();
         strijelciSvi = new ArrayList<>();
+        sveGrupe = new ArrayList<>();
+        GrupaB = new ArrayList<>();
         final String[] temp=utakmica.split(" ");
         final String[] ekipe=temp[2].split("-");
 
@@ -138,26 +140,35 @@ public class Tab1Fragment extends Fragment {
                 for (DataSnapshot data:dataSnapshot.getChildren()){
                     Strijelac strijelac = data.getValue(Strijelac.class);
                     if(ekipe[0].equals(strijelac.getMomcad())) {
-                        strijelciPrveEkipe.add(strijelac.getImeStrijelca()+" "+strijelac.getMomcad()+" "+strijelac.getBrojGolova()+" "+strijelac.getIdStrijelca());
+                        strijelciPrveEkipe.add(strijelac);
                     }
                     if(ekipe[1].equals(strijelac.getMomcad())) {
-                        strijelciDrugeEkipe.add(strijelac.getImeStrijelca()+" "+strijelac.getMomcad()+" "+strijelac.getBrojGolova()+" "+strijelac.getIdStrijelca());
+                        strijelciDrugeEkipe.add(strijelac);
                     }
                 }
-                listaAdapterStrijelac1 = new ArrayAdapter(
-                        getContext(),
-                        android.R.layout.simple_list_item_multiple_choice,
-                        strijelciPrveEkipe
-                );
+                listaAdapterStrijelac1 = new ListaStrijelacaMultiple(getActivity(),strijelciPrveEkipe);
                 listaPrveEkipe.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 listaPrveEkipe.setAdapter(listaAdapterStrijelac1);
-                listaAdapterStrijelac2 = new ArrayAdapter(
-                        getContext(),
-                        android.R.layout.simple_list_item_multiple_choice,
-                        strijelciDrugeEkipe
-                );
+                listaAdapterStrijelac2 = new ListaStrijelacaMultiple(getActivity(),strijelciDrugeEkipe);
                 listaDrugeEkipe.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 listaDrugeEkipe.setAdapter(listaAdapterStrijelac2);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        databasePronadiGrupe.child(mParam1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                sveGrupe.clear();
+                for (DataSnapshot data:dataSnapshot.getChildren()) {
+                    Skupine skupine = data.getValue(Skupine.class);
+                    sveGrupe.add(skupine.getEkipaJedan()+"-"+skupine.getEkipaDva()+"-"+skupine.getEkipaTri()+"-"+skupine.getEkipaCetiri()+"-"+skupine.getIdGrupe());
+                }
+
             }
 
             @Override
@@ -214,19 +225,61 @@ public class Tab1Fragment extends Fragment {
     private boolean updateUtakmice(String id, String name, String rezultat){
         DatabaseReference databaseDohvatiTekmu = FirebaseDatabase.getInstance().getReference("utakmice").child(mParam1).child(id);
         DatabaseReference databaseDohvatiStrijelca = FirebaseDatabase.getInstance().getReference("strijelci").child(mParam1);
+        DatabaseReference databaseDohvatiGrupu = FirebaseDatabase.getInstance().getReference("grupe").child(mParam1);
+
+        //Utakmice
         Utakmice utakmice = new Utakmice(id, name, rezultat);
         databaseDohvatiTekmu.setValue(utakmice);
+        String[] rezaPolje=rezultat.split(":");
+        String[] ime=name.split(" ");
+        String[] ekipe=ime[2].split("-");
+        if(Integer.parseInt(rezaPolje[0])>Integer.parseInt(rezaPolje[1])){
+            ekipaKojojDajemoBodove = ekipe[0];
+        }
+        else if(Integer.parseInt(rezaPolje[0])<Integer.parseInt(rezaPolje[1])){
+            ekipaKojojDajemoBodove = ekipe[1];
+        }
+        //GRUPE
+        for (int j=0;j<sveGrupe.size();j++) {
+            String[] momcadi=sveGrupe.get(j).split("-");
+            String id_grupe = momcadi[4];
+            String[] momcad1 = momcadi[0].split(" ");
+            String[] momcad2 = momcadi[1].split(" ");
+            String[] momcad3 = momcadi[2].split(" ");
+            String[] momcad4 = momcadi[3].split(" ");
+            if(ekipaKojojDajemoBodove.equals(momcad1[0])){
+                int a=Integer.parseInt(momcad1[1])+3;
+                String mijenjamo_bodove = momcad1[0]+" "+a;
+                Skupine skupine = new Skupine(mijenjamo_bodove,momcadi[1],momcadi[2],momcadi[3],id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove.equals(momcad2[0])){
+                int a=Integer.parseInt(momcad2[1])+3;
+                String mijenjamo_bodove = momcad2[0]+" "+a;
+                Skupine skupine = new Skupine(momcadi[0],mijenjamo_bodove,momcadi[2],momcadi[3],id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove.equals(momcad3[0])){
+                int a=Integer.parseInt(momcad3[1])+3;
+                String mijenjamo_bodove = momcad3[0]+" "+a;
+                Skupine skupine = new Skupine(momcadi[0],momcadi[1],mijenjamo_bodove,momcadi[3],id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+            if(ekipaKojojDajemoBodove.equals(momcad4[0])){
+                int a=Integer.parseInt(momcad4[1])+3;
+                String mijenjamo_bodove = momcad4[0]+" "+a;
+                Skupine skupine = new Skupine(momcadi[0],momcadi[1],momcadi[2],mijenjamo_bodove,id_grupe);
+                databaseDohvatiGrupu.child(id_grupe).setValue(skupine);
+            }
+        }
+        //STRIJELCI
 
         for(int i=0;i<strijelciSvi.size();i++){
-            String[] ime_gol_id=strijelciSvi.get(i).split(" ");
-            String imeStrijelca = ime_gol_id[0];
-            String momcadStrijelca = ime_gol_id[1];
-            golovi = Integer.parseInt(ime_gol_id[2]);
-            String idStrijelca = ime_gol_id[3];
-
-
-            Strijelac strijelac = new Strijelac(imeStrijelca,momcadStrijelca,idStrijelca,golovi+1);
-            databaseDohvatiStrijelca.child(idStrijelca).setValue(strijelac);
+            Strijelac strijelac = new Strijelac(strijelciSvi.get(i).getImeStrijelca(),
+                    strijelciSvi.get(i).getMomcad(),
+                    strijelciSvi.get(i).getIdStrijelca(),
+                    strijelciSvi.get(i).getBrojGolova()+1);
+            databaseDohvatiStrijelca.child(strijelciSvi.get(i).getIdStrijelca()).setValue(strijelac);
 
         }
 

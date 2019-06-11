@@ -70,6 +70,7 @@ public class Tab2Fragment extends Fragment {
         grupeDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                grp.clear();
                 for(DataSnapshot snap : dataSnapshot.getChildren()){
                     Skupine skupine = snap.getValue(Skupine.class);
                     grp.add(skupine.getEkipaJedan());
