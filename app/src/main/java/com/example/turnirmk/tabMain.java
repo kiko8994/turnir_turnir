@@ -148,7 +148,7 @@ public class tabMain extends AppCompatActivity {
                     fragment = Tab2Fragment.newInstance(id);
                     break;
                 case 2:
-                    fragment = new Tab3Fragment();
+                    fragment = Tab3Fragment.newInstance(id);
                     break;
                 }
             return fragment;

@@ -302,7 +302,7 @@ public class grupe extends AppCompatActivity {
     private void save(){
         for(int i=0; i<tekme.size();i++){
             String id = utakmiceRef.push().getKey();
-            Utakmice utakmice = new Utakmice(tekme.get(i),"","");
+            Utakmice utakmice = new Utakmice(id, tekme.get(i),"");
             utakmiceRef.child(id).setValue(utakmice);
         }
 
