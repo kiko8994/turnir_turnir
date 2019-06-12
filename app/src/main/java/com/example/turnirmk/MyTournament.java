@@ -46,7 +46,6 @@ public class MyTournament extends AppCompatActivity {
 
         final List<String> mojiTurniri = new ArrayList<String>();
         final ArrayList<String> keyList = new ArrayList<>();
-        final ArrayList<String> keyList1 = new ArrayList<>();
 
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String email = currentUser.getEmail();
@@ -90,29 +89,18 @@ public class MyTournament extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String idOfDeleteTour = keyList.get(position);
 
+
+                                    final DatabaseReference utakmice = rootRef.child("utakmice").child(idOfDeleteTour);
                                     final DatabaseReference ekipe = rootRef.child("ekipe").child(idOfDeleteTour);
-                                    ekipe.orderByChild("idTurnira").equalTo(idOfDeleteTour).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.exists()) {
-                                                for (DataSnapshot cs: dataSnapshot.getChildren()) {
-                                                    keyList1.add(cs.getKey());
-                                                }
-                                            }
-                                            arrayAdapter.remove(mojiTurniri.get(position));
-                                            dogadaj.child(keyList.get(position)).removeValue();
-                                            Log.d("ključ", keyList1.toString());
-                                            Log.d("duljina", "value" + keyList1.size());
-                                            for (int i = 0 ; i < keyList1.size(); i++) {
-                                                ekipe.child(keyList1.get(i)).removeValue();
-                                            }
-                                        }
+                                    final DatabaseReference strijelci = rootRef.child("strijelci").child(idOfDeleteTour);
+                                    final DatabaseReference grupe = rootRef.child("grupe").child(idOfDeleteTour);
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
+                                    arrayAdapter.remove(mojiTurniri.get(position));
+                                    dogadaj.child(keyList.get(position)).removeValue();
+                                    utakmice.removeValue();
+                                    ekipe.removeValue();
+                                    strijelci.removeValue();
+                                    grupe.removeValue();
                                 }
                             });
                             builder.setNegativeButton("NE", null);

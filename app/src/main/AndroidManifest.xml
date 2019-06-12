@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".TeamOnMyTournament"></activity>
+        <activity android:name=".Players"></activity>
+        <activity android:name=".TeamOnMyTournament" />
         <activity
             android:name=".tabMain"
             android:label="@string/title_activity_tab_main"
@@ -35,7 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

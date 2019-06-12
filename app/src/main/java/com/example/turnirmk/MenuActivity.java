@@ -46,8 +46,6 @@ public class MenuActivity extends AppCompatActivity {
             String email = currentUser.getEmail();
             String[] display = email.split("@");
             textViewWelcome.setText("Dobrodošao " + display[0] + "!");
-        } else {
-            textViewWelcome.setText("BLABLABLABLABLA");
         }
     }
 
@@ -88,6 +86,11 @@ public class MenuActivity extends AppCompatActivity {
                     case R.id.nav_mytour:
                         Intent intent4 = new Intent(MenuActivity.this, MyTournament.class);
                         startActivity(intent4);
+                        break;
+
+                    case R.id.nav_Players:
+                        Intent intent5 = new Intent(MenuActivity.this, Players.class);
+                        startActivity(intent5);
                         break;
 
                     case R.id.nav_Logout:
