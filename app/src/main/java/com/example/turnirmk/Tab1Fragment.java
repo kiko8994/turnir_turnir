@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Tab1Fragment extends Fragment {
@@ -111,7 +113,8 @@ public class Tab1Fragment extends Fragment {
         final EditText rezEkipaDruga = (EditText)dialogView.findViewById(R.id.rezEkipa2);
         final TextView prvaEkipa = (TextView)dialogView.findViewById(R.id.ekipa1);
         final TextView drugaEkipa = (TextView)dialogView.findViewById(R.id.ekipa2);
-        final Button spremiPromjene = (Button)dialogView.findViewById(R.id.spremi);
+        final Button spremiStrijelca = (Button)dialogView.findViewById(R.id.spremiStrijelca);
+        final Button spremiRezu = (Button)dialogView.findViewById(R.id.spremiRezu);
         final ListView listaPrveEkipe = (ListView) dialogView.findViewById(R.id.listEkipa1);
         final ListView listaDrugeEkipe = (ListView) dialogView.findViewById(R.id.listEkipa2);
         strijelciPrveEkipe = new ArrayList<>();
@@ -184,7 +187,7 @@ public class Tab1Fragment extends Fragment {
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
 
-        spremiPromjene.setOnClickListener(new View.OnClickListener() {
+        spremiRezu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String rezEkipeJedan = rezEkipaPrva.getText().toString().trim();
@@ -224,6 +227,7 @@ public class Tab1Fragment extends Fragment {
         });
 
     }
+
     private boolean updateUtakmice(String id, String name, String rezultat){
         DatabaseReference databaseDohvatiTekmu = FirebaseDatabase.getInstance().getReference("utakmice").child(mParam1).child(id);
         DatabaseReference databaseDohvatiStrijelca = FirebaseDatabase.getInstance().getReference("strijelci").child(mParam1);

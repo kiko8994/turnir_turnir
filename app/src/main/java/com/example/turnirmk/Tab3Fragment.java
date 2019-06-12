@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Tab3Fragment extends Fragment {
@@ -34,6 +35,7 @@ public class Tab3Fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,7 +55,12 @@ public class Tab3Fragment extends Fragment {
                     Strijelac strijelac = snap.getValue(Strijelac.class);
                     svi_strijelci.add(strijelac);
                 }
-
+                Collections.sort(svi_strijelci, new Sortbyroll() {
+                    @Override
+                    public int compare(Strijelac a, Strijelac b) {
+                        return super.compare(b, a);
+                    }
+                });
                 ListaStrijelaca listaAdapter = new ListaStrijelaca(getActivity(),svi_strijelci);
                 list_view_strijelci.setAdapter(listaAdapter);
             }
