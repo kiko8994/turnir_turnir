@@ -82,23 +82,27 @@
 
     <Button
         android:id="@+id/spremiRezu"
+        android:background="@drawable/roundedbutton"
         android:layout_width="144dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
         android:text="Spremi rezu"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/spremiStrijelca"
         app:layout_constraintTop_toBottomOf="@+id/listEkipa2" />
 
     <Button
         android:id="@+id/spremiStrijelca"
+        android:background="@drawable/roundedbutton"
         android:layout_width="148dp"
         android:layout_height="50dp"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="28dp"
         android:text="Spremi strijelca"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listEkipa1" />
 

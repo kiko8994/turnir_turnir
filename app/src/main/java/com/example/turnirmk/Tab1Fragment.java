@@ -187,12 +187,12 @@ public class Tab1Fragment extends Fragment {
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
 
-        spremiRezu.setOnClickListener(new View.OnClickListener() {
+
+        spremiStrijelca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String rezEkipeJedan = rezEkipaPrva.getText().toString().trim();
-                String rezEkipeDva = rezEkipaDruga.getText().toString().trim();
 
+                DatabaseReference databaseDohvatiStrijelca = FirebaseDatabase.getInstance().getReference("strijelci").child(mParam1);
                 int itemCount1 = listaPrveEkipe.getCount();
                 SparseBooleanArray checkedItemPositions1 = listaPrveEkipe.getCheckedItemPositions();
                 for (int i = itemCount1-1; i >= 0; i--) {
@@ -212,6 +212,28 @@ public class Tab1Fragment extends Fragment {
                 }
                 checkedItemPositions2.clear();
 
+                //STRIJELCI
+
+                for(int i=0;i<strijelciSvi.size();i++){
+                    Strijelac strijelac = new Strijelac(strijelciSvi.get(i).getImeStrijelca(),
+                            strijelciSvi.get(i).getMomcad(),
+                            strijelciSvi.get(i).getIdStrijelca(),
+                            strijelciSvi.get(i).getBrojGolova()+1);
+                    databaseDohvatiStrijelca.child(strijelciSvi.get(i).getIdStrijelca()).setValue(strijelac);
+
+                }
+
+                Toast.makeText(getActivity(),"Promijenjeni strijelci!",Toast.LENGTH_LONG).show();
+                alertDialog.dismiss();
+            }
+
+        });
+        spremiRezu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String rezEkipeJedan = rezEkipaPrva.getText().toString().trim();
+                String rezEkipeDva = rezEkipaDruga.getText().toString().trim();
+
                 if(TextUtils.isEmpty(rezEkipeJedan)){
                     rezEkipaPrva.setError("Rezultat potrebno unijeti!");
                     return;
@@ -230,7 +252,6 @@ public class Tab1Fragment extends Fragment {
 
     private boolean updateUtakmice(String id, String name, String rezultat){
         DatabaseReference databaseDohvatiTekmu = FirebaseDatabase.getInstance().getReference("utakmice").child(mParam1).child(id);
-        DatabaseReference databaseDohvatiStrijelca = FirebaseDatabase.getInstance().getReference("strijelci").child(mParam1);
         DatabaseReference databaseDohvatiGrupu = FirebaseDatabase.getInstance().getReference("grupe").child(mParam1);
 
         //Utakmice
@@ -334,18 +355,8 @@ public class Tab1Fragment extends Fragment {
         ekipaKojojDajemoBodove="";
         ekipaKojojDajemoBodove1="";
         ekipaKojojDajemoBodove2="";
-        //STRIJELCI
 
-        for(int i=0;i<strijelciSvi.size();i++){
-            Strijelac strijelac = new Strijelac(strijelciSvi.get(i).getImeStrijelca(),
-                    strijelciSvi.get(i).getMomcad(),
-                    strijelciSvi.get(i).getIdStrijelca(),
-                    strijelciSvi.get(i).getBrojGolova()+1);
-            databaseDohvatiStrijelca.child(strijelciSvi.get(i).getIdStrijelca()).setValue(strijelac);
-
-        }
-
-        Toast.makeText(getActivity(),"Promijenjen rezultat i strijelci!",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"Promijenjen rezultat!",Toast.LENGTH_LONG).show();
         return true;
     }
 }
