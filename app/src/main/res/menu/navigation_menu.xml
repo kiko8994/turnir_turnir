@@ -3,27 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/nav_profile"
-        android:title="Profile"
+        android:title="Profil"
         android:icon="@drawable/ic_account_circle_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_addtour"
-        android:title="Add tournament"
+        android:title="Dodaj turnir"
         android:icon="@drawable/ic_add_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_viewtour"
-        android:title="View tournament"
+        android:title="Pogledaj turnire"
         android:icon="@drawable/ic_view_headline_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_mytour"
-        android:title="My tournament"
-        android:icon="@drawable/ic_accessibility_black_24dp"
+        android:title="Moji turniri"
+        android:icon="@drawable/ic_person_black_24dp"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/nav_Players"
+        android:title="Pregled igrača"
+        android:icon="@drawable/ic_people_black_24dp"
         app:showAsAction="always"/>
 
     <item android:id="@+id/nav_Logout"
-        android:title="Logout"
+        android:title="Odjava"
         android:icon="@drawable/ic_exit_to_app_black_24dp"
         app:showAsAction="always"/>
 
