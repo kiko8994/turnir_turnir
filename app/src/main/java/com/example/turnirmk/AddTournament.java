@@ -44,6 +44,7 @@ public class AddTournament extends AppCompatActivity implements
     Button buttonAdd;
     Button datum_gumb;
     EditText datum;
+    public static String datum_za_ispis;
     private FloatingActionButton floatingActionButton;
     int day, year, month, dayFinal, yearFinal, monthFinal, hour, minute, hourFinal, minuteFinal;
 
@@ -95,6 +96,7 @@ public class AddTournament extends AppCompatActivity implements
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AddTournament.this, AddTournament.this,
                 year, month, day);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
@@ -102,7 +104,7 @@ public class AddTournament extends AppCompatActivity implements
     private void dodaj() {
         String name = editTextName.getText().toString().trim();
         String name3 = editTextName3.getText().toString().trim();
-        String name4 = datum.getText().toString().trim();
+        String name4 = datum_za_ispis;
 
         if (name.isEmpty()) {
             editTextName.setError("Ime turnira mora biti upisano!");
@@ -150,7 +152,7 @@ public class AddTournament extends AppCompatActivity implements
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
         yearFinal = i;
-        monthFinal = i1;
+        monthFinal = i1+1;
         dayFinal = i2;
 
         Calendar c = Calendar.getInstance();
@@ -166,8 +168,13 @@ public class AddTournament extends AppCompatActivity implements
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         hourFinal = i;
         minuteFinal = i1;
-
-        datum.setText(yearFinal +" "+monthFinal +" "+dayFinal +" "+hourFinal +" "+minuteFinal);
+        datum_za_ispis = yearFinal +" "+monthFinal +" "+dayFinal +" "+hourFinal +" "+minuteFinal;
+        if(minuteFinal<10) {
+            datum.setText(dayFinal + "." + monthFinal + "." + yearFinal + "." + " " + hourFinal + ":0" + minuteFinal);
+        }
+        else {
+            datum.setText(dayFinal + "." + monthFinal + "." + yearFinal + "." + " " + hourFinal + ":" + minuteFinal);
+        }
     }
 
     class RetreiveFeedTask extends AsyncTask<String, Void, String> {

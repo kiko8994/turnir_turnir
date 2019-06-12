@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Tab2Fragment extends Fragment {
@@ -45,7 +46,24 @@ public class Tab2Fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    public List<String> sort(List<String> list){
+        List<String> sortirani = new ArrayList<>();
+        List<String> sortiraniReverse = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            String[] temp = list.get(i).split(" ");
+            String tmp = temp[1]+" "+temp[0];
+            sortirani.add(tmp);
+        }
+        Collections.sort(sortirani);
+        Collections.reverse(sortirani);
+        for(int i=0;i<sortirani.size();i++){
 
+            String[] temp = sortirani.get(i).split(" ");
+            String tmp = temp[1]+" "+temp[0];
+            sortiraniReverse.add(tmp);
+        }
+        return sortiraniReverse;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,7 +99,9 @@ public class Tab2Fragment extends Fragment {
                 int a=grp.size();
                 if(a==16){
                     grpC = grp.subList(8,12);
+                    grpC = sort(grpC);
                     grpD = grp.subList(12,16);
+                    grpD = sort(grpD);
                     c.setText("GRUPA C");
                     d.setText("GRUPA D");
                     ArrayAdapter<String> listaAdapterC = new ArrayAdapter(
@@ -99,7 +119,9 @@ public class Tab2Fragment extends Fragment {
                     grupaD.setAdapter(listaAdapterD);
                 }
                 grpA = grp.subList(0,4);
+                grpA=sort(grpA);
                 grpB = grp.subList(4,8);
+                grpB = sort(grpB);
                 ArrayAdapter<String> listaAdapter = new ArrayAdapter(
                         getContext(),
                         android.R.layout.simple_list_item_1,
