@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,6 +26,9 @@ import java.util.ArrayList;
 public class Players extends AppCompatActivity {
 
     ListView listViewPlayers;
+    EditText editTextSearch;
+
+    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +36,28 @@ public class Players extends AppCompatActivity {
         setContentView(R.layout.activity_players);
 
         listViewPlayers = (ListView) findViewById(R.id.listViewPlayers);
+        editTextSearch = (EditText) findViewById(R.id.editTextSearch);
 
         final ArrayList<String> sviIgraci = new ArrayList<String>();
         final ArrayList<String> alluserName = new ArrayList<String>();
+
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                (Players.this).arrayAdapter.getFilter().filter(s);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference players = rootRef.child("profil");
@@ -46,7 +71,7 @@ public class Players extends AppCompatActivity {
                     sviIgraci.add(imeIgraca + " " + prezimeIgraca);
                     alluserName.add(userName);
                 }
-                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, sviIgraci);
+                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, sviIgraci);
                 listViewPlayers.setAdapter(arrayAdapter);
 
                 listViewPlayers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
