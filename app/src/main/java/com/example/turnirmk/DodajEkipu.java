@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,7 +57,6 @@ public class DodajEkipu extends AppCompatActivity {
     String email = currentUser.getEmail();
     String[] username = email.split("@");
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +68,6 @@ public class DodajEkipu extends AppCompatActivity {
         Prijavi = (Button) findViewById(R.id.Prijavi);
         pogledaj = (Button) findViewById(R.id.pogledaj);
         listViewEkipe = (ListView) findViewById(R.id.listViewEkipe);
-
-        flag = 0;
         ekipe = new ArrayList<>();
         profili = new ArrayList<>();
         idevi = new ArrayList<>();
@@ -84,20 +82,16 @@ public class DodajEkipu extends AppCompatActivity {
         napraviGrupe.setVisibility(View.GONE);
         pogledaj.setVisibility(View.GONE);
 
-
         databaseEkipe = FirebaseDatabase.getInstance().getReference("ekipe").child(id);
         databaseStrijelac = FirebaseDatabase.getInstance().getReference("strijelci").child(id);
         DatabaseReference databaseFlagUtakmice = FirebaseDatabase.getInstance().getReference("utakmice").child(id);
         DatabaseReference databaseFlagDogadaj = FirebaseDatabase.getInstance().getReference("dogadaj").child(id);
-        String[] dogString = databaseFlagDogadaj.toString().split("/");
-        String[] utakString = databaseFlagUtakmice.toString().split("/");
 
 
 
         Prijavi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imeEkipe.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 saveEkipe();
             }
         });
@@ -126,14 +120,16 @@ public class DodajEkipu extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                     flag = 1;
                     pogledaj.setVisibility(View.VISIBLE);
-                    imeEkipe.setVisibility(View.INVISIBLE);
-                    Prijavi.setVisibility(View.INVISIBLE);
+                    napraviGrupe.setVisibility(View.GONE);
+                    imeEkipe.setEnabled(false);
+                    Prijavi.setEnabled(false);
                 }
                 else{
                     flag = 0;
                     pogledaj.setVisibility(View.GONE);
-                    imeEkipe.setVisibility(View.VISIBLE);
-                    Prijavi.setVisibility(View.VISIBLE);
+                    napraviGrupe.setVisibility(View.VISIBLE);
+                    imeEkipe.setEnabled(true);
+                    Prijavi.setEnabled(true);
                 }
 
             }
@@ -160,7 +156,7 @@ public class DodajEkipu extends AppCompatActivity {
                     ekipe.add(ekipa);
                 }
                 brojekipa = ekipe.size();
-                if(vlasnik.equals(username[0]) && (brojekipa==8 || brojekipa==16)){
+                if(vlasnik.equals(username[0]) && (brojekipa==8 || brojekipa==16) && flag==0){
                     napraviGrupe.setVisibility(View.VISIBLE);
                 }
                 else{
@@ -215,7 +211,7 @@ public class DodajEkipu extends AppCompatActivity {
                 }
             }
 
-            Toast.makeText(this, "Uspjesno ste prijavili ekipu!",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Uspjesno ste prijavili ekipu!",Toast.LENGTH_SHORT).show();
             imeEkipe.setText("");
         }
         else{

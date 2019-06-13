@@ -1,6 +1,8 @@
 package com.example.turnirmk;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,10 +44,9 @@ public class grupe extends AppCompatActivity {
     ListView grupaD;
     ListView utakmice;
 
-    Button dodajTekme;
+    FloatingActionButton dodajTekme;
 
     public static int sat, minuta;
-
 
     DatabaseReference grupeReference;
     DatabaseReference utakmiceRef;
@@ -66,7 +68,7 @@ public class grupe extends AppCompatActivity {
         grupaC =(ListView) findViewById(R.id.grupaC);
         grupaD =(ListView) findViewById(R.id.grupaD);
         utakmice = (ListView) findViewById(R.id.listUtakmice);
-        dodajTekme = (Button) findViewById(R.id.dodajUtakmice);
+        dodajTekme = (FloatingActionButton) findViewById(R.id.dodajUtakmice);
 
         String tmp = getIntent().getStringExtra("GRUPE");
         String dat = getIntent().getStringExtra("DATE");
@@ -304,6 +306,7 @@ public class grupe extends AppCompatActivity {
             String id = utakmiceRef.push().getKey();
             Utakmice utakmice = new Utakmice(id, tekme.get(i),"");
             utakmiceRef.child(id).setValue(utakmice);
+            Toast.makeText(this, "Uspjesno ste napravili događaj!",Toast.LENGTH_SHORT).show();
         }
 
         Skupine skupine = new Skupine(A.get(0).getImeEkipe()+" 0",A.get(1).getImeEkipe()+" 0",

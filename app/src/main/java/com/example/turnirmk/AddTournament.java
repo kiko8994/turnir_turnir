@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.text.format.DateFormat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +57,7 @@ public class AddTournament extends AppCompatActivity implements
     FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
     String reciep = currentUser.getEmail();
     String[] username = reciep.split("@");
+    LottieAnimationView kvacka;
 
     ProgressBar progressBar3;
 
@@ -73,6 +75,7 @@ public class AddTournament extends AppCompatActivity implements
         buttonAdd = (Button) findViewById(R.id.buttonAdd);
         datum_gumb = (Button) findViewById(R.id.datum_gumb);
         datum = (EditText) findViewById(R.id.datum);
+        kvacka = (LottieAnimationView)findViewById(R.id.animation_view);
 
         progressBar3 = (ProgressBar) findViewById(R.id.progressBar3);
         context = this;
@@ -142,8 +145,8 @@ public class AddTournament extends AppCompatActivity implements
                     return new PasswordAuthentication("taplikacija9@gmail.com", "12AplikacijA@");
                 }
             });
-
-            progressBar3.setVisibility(View.VISIBLE);
+            kvacka.setVisibility(View.VISIBLE);
+            //progressBar3.setVisibility(View.VISIBLE);
             RetreiveFeedTask task = new RetreiveFeedTask();
             task.execute();
         }
@@ -204,7 +207,8 @@ public class AddTournament extends AppCompatActivity implements
             editTextName.setText("");
             editTextName3.setText("");
             datum.setText("");
-            progressBar3.setVisibility(View.GONE);
+            //progressBar3.setVisibility(View.GONE);
+            kvacka.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(), "Message sent to " + reciep, Toast.LENGTH_LONG).show();
         }
     }
