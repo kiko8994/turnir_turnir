@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -59,8 +60,6 @@ public class AddTournament extends AppCompatActivity implements
     String[] username = reciep.split("@");
     LottieAnimationView kvacka;
 
-    ProgressBar progressBar3;
-
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
     @Override
@@ -77,10 +76,9 @@ public class AddTournament extends AppCompatActivity implements
         datum = (EditText) findViewById(R.id.datum);
         kvacka = (LottieAnimationView)findViewById(R.id.animation_view);
 
-        progressBar3 = (ProgressBar) findViewById(R.id.progressBar3);
         context = this;
 
-        
+        NavigationView nvTrophy =(NavigationView) findViewById(R.id.nvTrophy);
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +144,6 @@ public class AddTournament extends AppCompatActivity implements
                 }
             });
             kvacka.setVisibility(View.VISIBLE);
-            //progressBar3.setVisibility(View.VISIBLE);
             RetreiveFeedTask task = new RetreiveFeedTask();
             task.execute();
         }
@@ -207,7 +204,6 @@ public class AddTournament extends AppCompatActivity implements
             editTextName.setText("");
             editTextName3.setText("");
             datum.setText("");
-            //progressBar3.setVisibility(View.GONE);
             kvacka.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(), "Message sent to " + reciep, Toast.LENGTH_LONG).show();
         }

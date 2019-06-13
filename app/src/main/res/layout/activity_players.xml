@@ -8,7 +8,7 @@
 
     <EditText
         android:id="@+id/editTextSearch"
-        android:layout_width="267dp"
+        android:layout_width="247dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -29,8 +29,8 @@
 
     <ListView
         android:id="@+id/listViewPlayers"
-        android:layout_width="267dp"
-        android:layout_height="441dp"
+        android:layout_width="246dp"
+        android:layout_height="518dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="104dp"
@@ -40,6 +40,26 @@
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/nvPlayers"
+        android:layout_width="109dp"
+        android:layout_height="329dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/datum_gumb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/listViewPlayers"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/igraci" />
 
 
 </android.support.constraint.ConstraintLayout>

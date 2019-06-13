@@ -2,6 +2,7 @@ package com.example.turnirmk;
 
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +41,9 @@ public class Players extends AppCompatActivity {
         listViewPlayers = (ListView) findViewById(R.id.listViewPlayers);
         editTextSearch = (EditText) findViewById(R.id.editTextSearch);
         setTitle("Popis igrača");
+
+        NavigationView nvPlayers =(NavigationView) findViewById(R.id.nvPlayers);
+
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
