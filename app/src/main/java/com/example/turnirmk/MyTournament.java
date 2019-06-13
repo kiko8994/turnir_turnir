@@ -41,7 +41,7 @@ public class MyTournament extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_tournament);
-
+        setTitle("Moji turniri");
         listViewMyTour = (ListView) findViewById(R.id.listViewMyTour);
 
         final List<String> mojiTurniri = new ArrayList<String>();

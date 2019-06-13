@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,7 +42,7 @@ public class DohvatiPodatke extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dohvati_podatke);
-
+        setTitle("Pregled turnira");
         listView = findViewById(R.id.list_view);
         databaseReference = FirebaseDatabase.getInstance().getReference("dogadaj");
         ListaDogadaja = new ArrayList<>();
@@ -64,6 +66,7 @@ public class DohvatiPodatke extends AppCompatActivity {
                 intent.putExtra(ID_DOGADAJA, dogadaj.getIdDogadaja());
                 intent.putExtra(IME_DOGADAJA, dogadaj.getImeDogadaja());
                 intent.putExtra(DATUM, dogadaj.getDatum());
+                intent.putExtra("VLASNIK",dogadaj.getKontakt());
 
                 startActivity(intent);
             }

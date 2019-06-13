@@ -29,10 +29,12 @@ public class dogadajInfoAdapter extends ArrayAdapter<Dogadaj> {
         TextView imeDogadaja = (TextView) listView.findViewById(R.id.imeDogadaja);
         TextView lokacija = (TextView) listView.findViewById(R.id.lokacija);
         TextView datum = (TextView) listView.findViewById(R.id.datum);
+        TextView kontakt = (TextView)listView.findViewById(R.id.voditelj);
 
         Dogadaj dogadaj = ListaDogadaja.get(position);
         imeDogadaja.setText(dogadaj.getImeDogadaja());
-        lokacija.setText("LOKACIJA: "+dogadaj.getLokacija());
+        lokacija.setText("LOKACIJA: " + dogadaj.getLokacija());
+        kontakt.setText("ORGANIZATOR: "+dogadaj.getKontakt());
         String[] dat = dogadaj.getDatum().split(" ");
         if(Integer.parseInt(dat[4])<10){
             dat[4]+="0";

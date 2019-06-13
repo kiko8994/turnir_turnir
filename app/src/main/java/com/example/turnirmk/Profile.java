@@ -43,6 +43,7 @@ public class Profile extends AppCompatActivity{
     @Override
     public void onStart() {
         super.onStart();
+        setTitle("Izmijeni profil");
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String display_email = currentUser.getEmail();
         String[] display_username = display_email.split("@");

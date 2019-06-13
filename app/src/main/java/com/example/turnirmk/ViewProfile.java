@@ -23,10 +23,11 @@ public class ViewProfile extends AppCompatActivity {
     Button buttonEditProfile, buttonChangePassword;
     private FirebaseAuth mAuth;
 
+
     @Override
     public void onStart() {
         super.onStart();
-
+        setTitle("Profil");
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String email = currentUser.getEmail();
         String[] display_username = email.split("@");

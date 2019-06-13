@@ -47,7 +47,7 @@ public class TeamOnMyTournament extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         final String imeDogadaja = extras.getString("key");
-
+        setTitle("Ekipe na turniru "+imeDogadaja);
         final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference dogadaj = rootRef.child("dogadaj");
         dogadaj.orderByChild("imeDogadaja").equalTo(imeDogadaja).addListenerForSingleValueEvent(new ValueEventListener() {

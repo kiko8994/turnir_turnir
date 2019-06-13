@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Players extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class Players extends AppCompatActivity {
     EditText editTextSearch;
 
     private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> sviIgraci = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,7 @@ public class Players extends AppCompatActivity {
 
         listViewPlayers = (ListView) findViewById(R.id.listViewPlayers);
         editTextSearch = (EditText) findViewById(R.id.editTextSearch);
-
-        final ArrayList<String> sviIgraci = new ArrayList<String>();
-        final ArrayList<String> alluserName = new ArrayList<String>();
-
+        setTitle("Popis igrača");
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -50,7 +49,6 @@ public class Players extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 (Players.this).arrayAdapter.getFilter().filter(s);
-                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -67,9 +65,7 @@ public class Players extends AppCompatActivity {
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                     String imeIgraca = childSnapshot.child("ime").getValue().toString();
                     String prezimeIgraca = childSnapshot.child("prezime").getValue().toString();
-                    String userName = childSnapshot.child("username").getValue().toString();
                     sviIgraci.add(imeIgraca + " " + prezimeIgraca);
-                    alluserName.add(userName);
                 }
                 arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, sviIgraci);
                 listViewPlayers.setAdapter(arrayAdapter);
@@ -77,40 +73,49 @@ public class Players extends AppCompatActivity {
                 listViewPlayers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedPlayers = alluserName.get(position);
+                        String selectedPlayer = (String) listViewPlayers.getItemAtPosition(position);
+                        Log.d("igrac", selectedPlayer);
 
-                        DatabaseReference podaci = rootRef.child("profil").child(selectedPlayers);
+                        final String[] player = selectedPlayer.split(" ");
 
-                        ValueEventListener eventListener = new ValueEventListener() {
+                        final DatabaseReference podaci = rootRef.child("profil");
+
+                        podaci.orderByChild("ime").equalTo(player[0]).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
-                                    String imeIgraca = dataSnapshot.child("ime").getValue().toString();
-                                    String prezimeIgraca = dataSnapshot.child("prezime").getValue().toString();
-                                    String kontakt = dataSnapshot.child("kontakt").getValue().toString();
-                                    String ekipa = dataSnapshot.child("ekipa").getValue().toString();
+                                    for (DataSnapshot childsnapshot: dataSnapshot.getChildren()) {
+                                        String prezime = childsnapshot.child("prezime").getValue().toString();
+                                        Log.d("prezime", prezime);
+                                        Log.d("prezime2", player[1]);
 
-                                    final CharSequence[] items = {"Ime: " + imeIgraca + " " + prezimeIgraca, "Kontakt: " + kontakt, "Ekipa: " + ekipa};
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Players.this);
-                                    builder.setTitle("Podaci o igraču");
-                                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int item) {
-                                            Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                                        if (prezime.equals(player[1])) {
+                                            Log.d("dalijeušlo", "true");
+                                            String imeIgraca = childsnapshot.child("ime").getValue().toString();
+                                            String prezimeIgraca = childsnapshot.child("prezime").getValue().toString();
+                                            String kontakt = childsnapshot.child("kontakt").getValue().toString();
+                                            String ekipa = childsnapshot.child("ekipa").getValue().toString();
+
+                                            final CharSequence[] items = {"Ime: " + imeIgraca + " " + prezimeIgraca, "Kontakt: " + kontakt, "Ekipa: " + ekipa};
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(Players.this);
+                                            builder.setTitle("Podaci o igraču");
+                                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int item) {
+                                                    Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            AlertDialog alert = builder.create();
+                                            alert.show();
                                         }
-                                    });
-                                    AlertDialog alert = builder.create();
-                                    alert.show();
+                                    }
                                 }
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
 
                             }
-                        };
-                        podaci.addListenerForSingleValueEvent(eventListener);
-
+                        });
                     }
                 });
             }

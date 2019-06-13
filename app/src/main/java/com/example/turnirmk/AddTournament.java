@@ -65,7 +65,7 @@ public class AddTournament extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tournament);
-
+        setTitle("Napravi turnir");
         databaseDogadaj = FirebaseDatabase.getInstance().getReference("dogadaj");
 
         editTextName = (EditText) findViewById(R.id.editTextName);

@@ -45,11 +45,12 @@ public class DodajEkipu extends AppCompatActivity {
     ListView listViewEkipe;
     List<Ekipe> ekipe;
     List<Profil> profili;
+    public static int flag;
     public static String test;
-
-    private FloatingActionButton napraviGrupe;
+    public static String vlasnik;
+    private Button napraviGrupe;
     public static int brojekipa = 0;
-
+    List<String> idevi;
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
     String email = currentUser.getEmail();
@@ -61,26 +62,37 @@ public class DodajEkipu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_ekipu);
 
-        napraviGrupe = (FloatingActionButton) findViewById(R.id.napraviGrupe);
+        napraviGrupe = (Button) findViewById(R.id.napraviGrupe);
         imeDog = (TextView) findViewById(R.id.imeDog);
         imeEkipe = (EditText) findViewById(R.id.imeEkipe);
         Prijavi = (Button) findViewById(R.id.Prijavi);
         pogledaj = (Button) findViewById(R.id.pogledaj);
         listViewEkipe = (ListView) findViewById(R.id.listViewEkipe);
 
+        flag = 0;
         ekipe = new ArrayList<>();
         profili = new ArrayList<>();
-
+        idevi = new ArrayList<>();
 
         Intent intent = getIntent();
         final String id = intent.getStringExtra(DohvatiPodatke.ID_DOGADAJA);
-        String name = intent.getStringExtra(DohvatiPodatke.IME_DOGADAJA);
+        final String name = intent.getStringExtra(DohvatiPodatke.IME_DOGADAJA);
         final String dat = intent.getStringExtra(DohvatiPodatke.DATUM);
+        vlasnik = intent.getStringExtra("VLASNIK");
 
         imeDog.setText(name);
+        napraviGrupe.setVisibility(View.GONE);
+        pogledaj.setVisibility(View.GONE);
+
 
         databaseEkipe = FirebaseDatabase.getInstance().getReference("ekipe").child(id);
         databaseStrijelac = FirebaseDatabase.getInstance().getReference("strijelci").child(id);
+        DatabaseReference databaseFlagUtakmice = FirebaseDatabase.getInstance().getReference("utakmice").child(id);
+        DatabaseReference databaseFlagDogadaj = FirebaseDatabase.getInstance().getReference("dogadaj").child(id);
+        String[] dogString = databaseFlagDogadaj.toString().split("/");
+        String[] utakString = databaseFlagUtakmice.toString().split("/");
+
+
 
         Prijavi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +101,7 @@ public class DodajEkipu extends AppCompatActivity {
                 saveEkipe();
             }
         });
+
         napraviGrupe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -103,7 +116,31 @@ public class DodajEkipu extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(DodajEkipu.this, tabMain.class);
                 intent.putExtra("ID", id);
+                intent.putExtra("IME",name);
                 startActivity(intent);
+            }
+        });
+        databaseFlagUtakmice.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    flag = 1;
+                    pogledaj.setVisibility(View.VISIBLE);
+                    imeEkipe.setVisibility(View.INVISIBLE);
+                    Prijavi.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    flag = 0;
+                    pogledaj.setVisibility(View.GONE);
+                    imeEkipe.setVisibility(View.VISIBLE);
+                    Prijavi.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -113,7 +150,7 @@ public class DodajEkipu extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        setTitle("Prijava ekipa");
         databaseEkipe.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -122,10 +159,16 @@ public class DodajEkipu extends AppCompatActivity {
                     Ekipe ekipa = ekipeSnapshot.getValue(Ekipe.class);
                     ekipe.add(ekipa);
                 }
+                brojekipa = ekipe.size();
+                if(vlasnik.equals(username[0]) && (brojekipa==8 || brojekipa==16)){
+                    napraviGrupe.setVisibility(View.VISIBLE);
+                }
+                else{
+                    napraviGrupe.setVisibility(View.GONE);
+                }
                 ListaEkipa listaEkipaAdapter = new ListaEkipa(DodajEkipu.this, ekipe);
                 listViewEkipe.setAdapter(listaEkipaAdapter);
-                //tu ima broj ekipa
-                brojekipa = ekipe.size();
+
             }
 
             @Override
@@ -150,6 +193,7 @@ public class DodajEkipu extends AppCompatActivity {
 
             }
         });
+
 
     }
 

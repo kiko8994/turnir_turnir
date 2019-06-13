@@ -65,7 +65,6 @@ public class Tab1Fragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab1_fragment,container,false);
         tekme = new ArrayList<>();
-
         mParam1 = getArguments().getString(ARG_PARAM1);
         utakmiceDatabase = FirebaseDatabase.getInstance().getReference("utakmice").child(mParam1);
         listViewUtakmice = (ListView)view.findViewById(R.id.listTekme1);
