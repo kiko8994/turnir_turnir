@@ -57,6 +57,24 @@ public class TeamOnMyTournament extends AppCompatActivity {
                     for (final DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
                         String idDogadaja = childSnapshot.child("idDogadaja").getValue().toString();
 
+                        final DatabaseReference grupe = rootRef.child("grupe").child(idDogadaja);
+                        grupe.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    buttonDelete.setEnabled(false);
+                                }
+                                else {
+                                    buttonDelete.setEnabled(true);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                         final DatabaseReference ekipe = rootRef.child("ekipe").child(idDogadaja);
                         ekipe.orderByChild("idTurnira").equalTo(idDogadaja).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

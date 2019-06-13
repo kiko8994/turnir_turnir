@@ -37,6 +37,7 @@ public class tabMain extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     public static String id;
+    public static String vlasnik;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,8 @@ public class tabMain extends AppCompatActivity {
 
         id = getIntent().getStringExtra("ID");
         String name=getIntent().getStringExtra("IME");
-        setTitle(name);
+        vlasnik = getIntent().getStringExtra("VLASNIK");
+        Log.d("vlasnik", vlasnik);
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -133,7 +135,7 @@ public class tabMain extends AppCompatActivity {
             Fragment fragment = new Fragment();
             switch (position) {
                 case 0:
-                    fragment = Tab1Fragment.newInstance(id);
+                    fragment = Tab1Fragment.newInstance(id, vlasnik);
                     break;
                 case 1:
                     fragment = Tab2Fragment.newInstance(id);

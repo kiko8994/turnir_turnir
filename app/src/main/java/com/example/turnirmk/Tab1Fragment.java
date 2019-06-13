@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,9 +37,11 @@ import java.util.List;
 public class Tab1Fragment extends Fragment {
     private static String TAG = "Tab1Fragment";
     private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     public static ListaStrijelacaMultiple listaAdapterStrijelac2;
     public static ListaStrijelacaMultiple listaAdapterStrijelac1;
     private String mParam1;
+    private String mParam2;
     List<Strijelac> strijelciPrveEkipe;
     List<Strijelac> strijelciDrugeEkipe;
     List<Strijelac> strijelciSvi;
@@ -47,11 +53,18 @@ public class Tab1Fragment extends Fragment {
     DatabaseReference databasePronadiStrijelce = FirebaseDatabase.getInstance().getReference("strijelci");
     DatabaseReference databasePronadiGrupe = FirebaseDatabase.getInstance().getReference("grupe");
     public static int golovi;
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+    String email = currentUser.getEmail();
+    String[] username = email.split("@");
+    int flag = 0;
 
-    public static Tab1Fragment newInstance(String param1) {
+
+    public static Tab1Fragment newInstance (String param1, String param2) {
         Tab1Fragment fragment = new Tab1Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,7 +78,18 @@ public class Tab1Fragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab1_fragment,container,false);
         tekme = new ArrayList<>();
+
         mParam1 = getArguments().getString(ARG_PARAM1);
+        mParam2 = getArguments().getString(ARG_PARAM2);
+
+        if (username[0].equals(mParam2)) {
+            flag = 1;
+        } else
+        {
+            flag = 0;
+        }
+
+
         utakmiceDatabase = FirebaseDatabase.getInstance().getReference("utakmice").child(mParam1);
         listViewUtakmice = (ListView)view.findViewById(R.id.listTekme1);
         utakmiceDatabase.addValueEventListener(new ValueEventListener() {
@@ -87,16 +111,18 @@ public class Tab1Fragment extends Fragment {
             }
         });
 
-        listViewUtakmice.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (flag == 1) {
+            listViewUtakmice.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Utakmice utakmice = tekme.get(i);
-                showDialog(utakmice.getTekma(),utakmice.getId(),utakmice.getRezultat());
+                    Utakmice utakmice = tekme.get(i);
+                    showDialog(utakmice.getTekma(),utakmice.getId(),utakmice.getRezultat());
 
-                return false;
-            }
-        });
+                    return false;
+                }
+            });
+        }
 
         return view;
     }

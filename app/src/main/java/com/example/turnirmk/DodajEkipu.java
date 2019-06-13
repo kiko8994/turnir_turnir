@@ -85,7 +85,6 @@ public class DodajEkipu extends AppCompatActivity {
         databaseEkipe = FirebaseDatabase.getInstance().getReference("ekipe").child(id);
         databaseStrijelac = FirebaseDatabase.getInstance().getReference("strijelci").child(id);
         DatabaseReference databaseFlagUtakmice = FirebaseDatabase.getInstance().getReference("utakmice").child(id);
-        DatabaseReference databaseFlagDogadaj = FirebaseDatabase.getInstance().getReference("dogadaj").child(id);
 
 
 
@@ -111,6 +110,7 @@ public class DodajEkipu extends AppCompatActivity {
                 Intent intent = new Intent(DodajEkipu.this, tabMain.class);
                 intent.putExtra("ID", id);
                 intent.putExtra("IME",name);
+                intent.putExtra("VLASNIK", vlasnik);
                 startActivity(intent);
             }
         });
